@@ -110,9 +110,9 @@
     font-weight:900;font-size:clamp(84px,20vw,300px);letter-spacing:-.03em;line-height:1;
     color:var(--ink);user-select:none;pointer-events:none;will-change:transform;
   }
-  /* мобайл: буквы крупнее и выше — на уровне груди, смело уходят за края экрана */
-  @media(max-width:879px){
-    .hero-word{font-size:31vw;align-items:flex-start;padding-top:52%}
+  /* телефоны: буквы крупные, на уровне рук, уходят за края экрана */
+  @media(max-width:640px){
+    .hero-word{font-size:clamp(96px,31vw,150px);align-items:flex-start;padding-top:52%}
     .hero-figure{height:90%}
   }
   /* вырезанная фигура поверх букв — как модель в лукбуке */
@@ -295,8 +295,10 @@
     background:linear-gradient(135deg,#143D2E,#0D2B20);
     font-weight:900;font-size:clamp(34px,6vw,52px);letter-spacing:.06em;
     color:transparent;-webkit-text-stroke:1px #7FBFA4;
-    animation:soonPulse 3s ease-in-out infinite;
+    animation:soonPulse 3s ease-in-out infinite;position:relative;
   }
+  .soon-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .soon-shot span{position:relative;z-index:1;text-shadow:0 4px 30px rgba(0,0,0,.4)}
   @keyframes soonPulse{0%,100%{opacity:.75}50%{opacity:1}}
 
   /* ---------- почему я ---------- */
@@ -661,7 +663,7 @@
         </div>
       </a>
       <a class="case reveal" href="#" onclick="return false">
-        <div class="case-shot soon-shot">SOON</div>
+        <div class="case-shot soon-shot"><img src="case-secret.jpg" alt="Секретный проект — скоро анонс"><span>SOON</span></div>
         <div class="case-body">
           <span class="badge-soon">Скоро анонс</span>
           <b><span class="spoiler">Большой секрет</span></b>
@@ -693,7 +695,7 @@
       </div></div>
       <div class="why-item reveal"><i>02</i><div>
         <h3>Быстро — без потери качества</h3>
-        <p>Современные инструменты и ИИ позволяют одному человеку делать то, на что студии берут недели. Лендинг — дни, а не месяцы.</p>
+        <p>Отлаженный процесс и современные инструменты позволяют одному человеку делать то, на что студии берут недели. Лендинг — дни, а не месяцы.</p>
       </div></div>
       <div class="why-item reveal"><i>03</i><div>
         <h3>Понятно, без жаргона</h3>
