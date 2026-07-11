@@ -317,17 +317,50 @@
   .float-bar .btn{flex:1;padding:15px 10px;font-size:14.5px}
   @media(max-width:760px){.float-bar{display:flex}}
 
+  /* ---------- фирменные детали ---------- */
+  #scrollbar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--green);z-index:90}
+  /* зерно плёнки поверх страницы — «печатная» текстура */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.05;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .logo b::after{content:"";display:inline-block;width:7px;height:7px;background:var(--green);margin-left:7px}
+  .status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.02em}
+  .status i{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(18,86,63,.35)}50%{box-shadow:0 0 0 6px rgba(18,86,63,0)}}
+  .ticker{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;background:var(--bg)}
+  .ticker-in{display:flex;width:max-content;animation:tick 32s linear infinite}
+  .ticker span{
+    font-weight:900;text-transform:uppercase;font-size:clamp(26px,5vw,46px);letter-spacing:.02em;
+    white-space:nowrap;color:rgba(17,18,19,.05);-webkit-text-stroke:1px #A9AAA4;padding-right:.6em;
+  }
+  .ticker-dark{background:transparent;border-color:var(--line-dark);margin-bottom:40px}
+  .ticker-dark span{-webkit-text-stroke-color:#2E302F}
+  @keyframes tick{to{transform:translateX(-50%)}}
+  .btn svg{transition:transform .2s ease}
+  .btn:hover svg{transform:translateX(3px)}
+  .case-shot{overflow:hidden}
+  .case-shot img{transition:transform .5s ease}
+  .case:hover .case-shot img{transform:scale(1.05)}
+  .quiz{position:relative}
+  .quiz::before,.quiz::after{content:"+";position:absolute;color:#B9BAB4;font-size:17px;line-height:1;font-weight:400}
+  .quiz::before{top:9px;left:11px}
+  .quiz::after{bottom:9px;right:11px}
+
   /* ---------- появление при скролле ---------- */
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
   .reveal.on{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
-    .btn,.quiz-step,.case{transition:none;animation:none}
+    .btn,.quiz-step,.case,.case-shot img{transition:none;animation:none}
+    .ticker-in{animation:none}
+    .status i{animation:none}
   }
 </style>
 </head>
 <body>
+<div id="scrollbar" aria-hidden="true"></div>
 
 <header>
   <div class="wrap header-in">
@@ -336,6 +369,7 @@
       <small>Шейх Мутаев · цифровые решения</small>
     </a>
     <nav class="header-links">
+      <span class="status"><i></i>открыт к проектам · Махачкала <b id="localTime"></b></span>
       <a href="#services">Услуги</a>
       <a href="#cases">Работы</a>
       <a href="#faq">Вопросы</a>
@@ -378,6 +412,14 @@
       <div><b>Опыт big tech</b>аналитик данных в Авито — крупнейшем классифайде России</div>
       <div><b>0 ₽</b>консультация и оценка задачи</div>
     </div>
+  </div>
+</div>
+
+<!-- БЕГУЩАЯ СТРОКА -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-in">
+    <span>Сайты · Приложения · Telegram · QR-меню · Veatum · Махачкала · </span>
+    <span>Сайты · Приложения · Telegram · QR-меню · Veatum · Махачкала · </span>
   </div>
 </div>
 
@@ -630,7 +672,13 @@
 </section>
 
 <!-- ФИНАЛЬНЫЙ CTA -->
-<section class="cta sec-black on-black">
+<section class="cta sec-black on-black" style="padding-top:0">
+  <div class="ticker ticker-dark" aria-hidden="true">
+    <div class="ticker-in">
+      <span>Обсудим ваш проект · Veatum · Обсудим ваш проект · Veatum · </span>
+      <span>Обсудим ваш проект · Veatum · Обсудим ваш проект · Veatum · </span>
+    </div>
+  </div>
   <div class="wrap">
     <p class="eyebrow reveal" style="justify-content:center">Начнём с разговора</p>
     <h2 class="h-disp reveal">Расскажите о задаче — <em>решение сегодня</em></h2>
@@ -708,6 +756,26 @@
   document.querySelectorAll("[data-call]").forEach(a => a.href = telLink);
   document.querySelectorAll("[data-phone-display]").forEach(el => el.textContent = CONFIG.phoneDisplay);
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* прогресс чтения, часы Махачкалы, параллакс водяного знака */
+  const sb = document.getElementById("scrollbar");
+  addEventListener("scroll", () => {
+    const h = document.documentElement;
+    if (sb) sb.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+  }, { passive: true });
+
+  const lt = document.getElementById("localTime");
+  function tickTime() {
+    if (lt) lt.textContent = new Intl.DateTimeFormat("ru-RU", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Moscow" }).format(new Date());
+  }
+  tickTime(); setInterval(tickTime, 30000);
+
+  const mark = document.querySelector(".hero-mark");
+  if (mark && matchMedia("(min-width:880px)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    addEventListener("scroll", () => {
+      mark.style.transform = "translateY(" + (scrollY * .18) + "px)";
+    }, { passive: true });
+  }
 
   /* плавное появление блоков при прокрутке */
   const io = new IntersectionObserver(entries => {
