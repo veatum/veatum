@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veatum — сайты, приложения и Telegram-решения для бизнеса Дагестана</title>
+<meta name="description" content="Шейх Мутаев — цифровые решения для малого и среднего бизнеса Кавказа: продающие сайты, веб-приложения, Telegram мини-приложения, QR-меню. Полный цикл в одних руках, быстро и понятно.">
+
+<!-- Превью при отправке ссылки в WhatsApp / Telegram (Open Graph) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Veatum — цифровые решения для вашего бизнеса">
+<meta property="og:description" content="Сайты, веб-приложения и Telegram-решения для бизнеса Дагестана. Полный цикл в одних руках — быстро, качественно, без жаргона.">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="https://veatum.ru/photo.jpg">
+<meta property="og:url" content="https://veatum.ru/">
+<meta name="twitter:card" content="summary_large_image">
+<!-- favicon: монограмма V, тёмно-зелёная плашка -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2312563F'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='34' font-weight='800' fill='%23FFFFFF' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F4F2;
+    --ink:#111213;
+    --black:#0E0F0F;
+    --green:#12563F;
+    --green-dark:#0D4231;
+    --green-tint:#E9F1ED;
+    --muted:#6E7071;
+    --line:#DDDDD8;
+    --line-dark:#2A2B2B;
+    --radius:4px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Golos Text',system-ui,-apple-system,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--green);color:#fff}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+  @media(min-width:760px){.wrap{padding:0 28px}}
+
+  /* ---------- типографика ---------- */
+  .h-disp{font-weight:900;text-transform:uppercase;line-height:.98;letter-spacing:-.02em;text-wrap:balance}
+  .h-disp em{font-style:normal;color:var(--green)}
+  h2.h-disp{font-size:clamp(30px,7vw,54px);margin:12px 0 14px}
+  .eyebrow{
+    font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--muted);display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--ink);flex:none}
+  .on-black .eyebrow{color:#8B8D8C}
+  .on-black .eyebrow::before{background:#fff}
+  .lead{color:var(--muted);max-width:58ch;font-size:15.5px}
+
+  /* ---------- кнопки ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-weight:600;font-size:15px;letter-spacing:.01em;
+    padding:17px 26px;border-radius:var(--radius);border:1.5px solid transparent;
+    transition:background .15s ease,border-color .15s ease,transform .12s ease;
+    cursor:pointer;white-space:nowrap;font-family:inherit;
+  }
+  .btn svg{width:19px;height:19px;flex:none}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-green:hover{background:var(--green-dark)}
+  .btn-green:active{transform:scale(.985)}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+  .btn-ghost:hover{background:var(--ink);color:var(--bg)}
+  .on-black .btn-ghost{border-color:#fff;color:#fff}
+  .on-black .btn-ghost:hover{background:#fff;color:var(--ink)}
+  .btn:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+
+  /* ---------- шапка ---------- */
+  header{padding:16px 0;border-bottom:1px solid var(--line);background:var(--bg)}
+  .header-in{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .logo{display:flex;align-items:baseline;gap:12px;min-width:0}
+  .logo b{font-weight:900;font-size:19px;letter-spacing:.06em;text-transform:uppercase}
+  .logo small{font-size:11.5px;color:var(--muted);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .header-links{display:flex;align-items:center;gap:18px;font-size:14px;font-weight:600}
+  .header-links a:hover{color:var(--green)}
+  @media(max-width:700px){.header-links{display:none}}
+
+  /* ---------- герой ---------- */
+  .hero{position:relative;padding:44px 0 0;overflow:hidden}
+  @media(min-width:880px){.hero{padding-top:72px}}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:36px;align-items:center;position:relative;z-index:1}
+  @media(min-width:880px){.hero-grid{grid-template-columns:1.2fr .8fr;gap:56px}}
+  .hero h1{font-size:clamp(34px,9vw,72px)}
+  .hero .lead{margin:20px 0 28px}
+  .hero .lead b{color:var(--ink);font-weight:600}
+  .hero-ctas{display:flex;flex-direction:column;gap:10px}
+  @media(min-width:560px){.hero-ctas{flex-direction:row;gap:12px}}
+  .hero-note{margin-top:16px;font-size:13px;color:var(--muted)}
+  .hero-note b{color:var(--green);font-weight:600}
+
+  /* водяной знак VEATUM за фото, как гигантские буквы в лукбуках */
+  .hero-mark{
+    position:absolute;right:-2vw;top:8%;z-index:0;pointer-events:none;user-select:none;
+    font-weight:900;font-size:clamp(90px,17vw,230px);letter-spacing:-.02em;
+    color:transparent;-webkit-text-stroke:1px var(--line);
+    display:none;
+  }
+  @media(min-width:880px){.hero-mark{display:block}}
+
+  .portrait{
+    position:relative;border-radius:var(--radius);overflow:hidden;
+    background:#1a1b1b;max-width:430px;margin:0 auto;width:100%;
+    aspect-ratio:4/4.6;
+  }
+  @media(min-width:880px){.portrait{aspect-ratio:4/5}}
+  .portrait img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%;
+    filter:grayscale(1) contrast(1.05);
+  }
+  .portrait-fallback{
+    position:absolute;inset:0;display:grid;place-items:center;
+    color:#4E4F4F;font-weight:900;font-size:56px;letter-spacing:.04em;
+  }
+  .portrait-cap{
+    position:absolute;left:0;right:0;bottom:0;padding:18px;text-align:left;
+    font-weight:800;text-transform:uppercase;font-size:13px;line-height:1.4;color:#fff;letter-spacing:.06em;
+    background:linear-gradient(180deg,transparent,rgba(0,0,0,.65));
+  }
+  .portrait-cap em{display:block;font-style:normal;color:#7FBFA4;font-size:11px;letter-spacing:.14em}
+
+  .trust{
+    display:grid;grid-template-columns:1fr;margin:44px 0 0;
+    border-top:1px solid var(--line);
+  }
+  @media(min-width:640px){.trust{grid-template-columns:repeat(3,1fr)}}
+  .trust div{
+    padding:18px 0;border-bottom:1px solid var(--line);
+    font-size:13.5px;color:var(--muted);display:flex;gap:10px;align-items:baseline;
+  }
+  @media(min-width:640px){.trust div{padding:22px 20px 22px 0}}
+  .trust b{color:var(--ink);font-weight:800;text-transform:uppercase;font-size:13px;letter-spacing:.05em}
+
+  /* ---------- чёрная лента категорий (как у GAZU) ---------- */
+  .catbar{background:var(--black);color:#fff;padding:0}
+  .catbar-in{display:grid;grid-template-columns:1fr 1fr;}
+  @media(min-width:880px){.catbar-in{grid-template-columns:repeat(4,1fr)}}
+  .cat{
+    padding:26px 20px;border-right:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+    transition:background .15s;
+  }
+  .cat:hover{background:#161717}
+  .cat i{font-style:normal;font-size:11px;color:#7FBFA4;font-weight:600;letter-spacing:.18em}
+  .cat b{display:block;font-weight:800;text-transform:uppercase;font-size:15px;margin-top:8px;letter-spacing:.03em}
+  .cat span{display:block;font-size:12.5px;color:#8B8D8C;margin-top:4px}
+
+  /* ---------- секции ---------- */
+  section{padding:64px 0}
+  @media(min-width:760px){section{padding:92px 0}}
+  .sec-black{background:var(--black);color:#fff}
+  .sec-black .lead{color:#9A9C9B}
+
+  /* ---------- квиз ---------- */
+  .quiz{
+    margin-top:32px;background:#fff;border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px 18px;max-width:760px;
+  }
+  @media(min-width:760px){.quiz{padding:34px 32px}}
+  .quiz-top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:22px}
+  .quiz-step-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600;flex:none}
+  .quiz-bar{flex:1;height:3px;background:var(--bg);overflow:hidden;max-width:300px}
+  .quiz-bar i{display:block;height:100%;width:25%;background:var(--green);transition:width .35s ease}
+  .quiz-step{display:none;animation:quizIn .35s ease}
+  .quiz-step.active{display:block}
+  @keyframes quizIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .quiz-q{font-size:21px;font-weight:800;margin-bottom:18px;text-transform:uppercase;letter-spacing:-.01em}
+  .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:430px){.quiz-opts{grid-template-columns:1fr}}
+  .quiz-opt{
+    text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);
+    padding:16px 15px;cursor:pointer;color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:600;
+    transition:border-color .15s,background .15s;display:flex;align-items:center;gap:10px;min-height:54px;
+  }
+  .quiz-opt:hover{border-color:var(--ink)}
+  .quiz-opt.sel{border-color:var(--green);background:var(--green-tint);color:var(--green)}
+  .quiz-opt .dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex:none;opacity:0;transition:opacity .15s}
+  .quiz-opt.sel .dot{opacity:1}
+  .quiz-fields{display:grid;gap:10px;max-width:440px}
+  .quiz-fields input{
+    background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);
+    padding:16px;color:var(--ink);font-family:inherit;font-size:16px;
+  }
+  .quiz-fields input::placeholder{color:var(--muted)}
+  .quiz-fields input:focus{outline:none;border-color:var(--green)}
+  .quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px;flex-wrap:wrap}
+  .quiz-back{background:none;border:none;color:var(--muted);cursor:pointer;font-family:inherit;font-size:14px;padding:8px 0}
+  .quiz-back:hover{color:var(--ink)}
+  .quiz-send{display:none;gap:10px;flex-wrap:wrap}
+  .quiz-send.show{display:flex}
+  .quiz-summary{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+
+  /* ---------- услуги ---------- */
+  .svc-list{margin-top:40px;display:grid;gap:14px}
+  .svc{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 22px;display:grid;grid-template-columns:1fr;gap:14px;
+  }
+  @media(min-width:820px){.svc{grid-template-columns:260px 1fr;gap:32px;padding:34px 30px}}
+  .svc-head i{font-style:normal;font-size:11px;color:var(--green);font-weight:600;letter-spacing:.18em}
+  .svc-head h3{font-weight:900;text-transform:uppercase;font-size:21px;line-height:1.15;margin-top:8px;letter-spacing:-.01em}
+  .svc-items{display:grid;gap:12px}
+  @media(min-width:560px){.svc-items{grid-template-columns:1fr 1fr}}
+  .svc-item b{display:block;font-size:14.5px;font-weight:700}
+  .svc-item span{font-size:13.5px;color:var(--muted)}
+
+  /* ---------- кейсы ---------- */
+  .cases{display:grid;grid-template-columns:1fr;gap:14px;margin-top:40px}
+  @media(min-width:820px){.cases{grid-template-columns:repeat(2,1fr);gap:18px}}
+  .case{
+    border:1px solid var(--line-dark);border-radius:var(--radius);overflow:hidden;
+    display:flex;flex-direction:column;background:#131414;transition:border-color .15s;
+  }
+  .case:hover{border-color:#3E403F}
+  .case-shot{
+    aspect-ratio:16/9;background:#1C1D1D;display:grid;place-items:center;
+    color:#565857;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  }
+  .case-shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+  .case-body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .case-body b{font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:.03em}
+  .case-body p{font-size:13.5px;color:#9A9C9B;flex:1}
+  .case-link{font-size:13px;font-weight:600;color:#7FBFA4}
+  .case-link:hover{color:#A5D8C1}
+
+  /* ---------- почему я ---------- */
+  .why-grid{display:grid;grid-template-columns:1fr;margin-top:40px;border-top:1px solid var(--line)}
+  @media(min-width:760px){.why-grid{grid-template-columns:1fr 1fr}}
+  .why-item{padding:24px 0;border-bottom:1px solid var(--line);display:flex;gap:18px}
+  @media(min-width:760px){
+    .why-item:nth-child(odd){padding-right:40px}
+    .why-item:nth-child(even){padding-left:40px;border-left:1px solid var(--line)}
+  }
+  .why-item i{
+    font-style:normal;flex:none;width:28px;height:28px;border:1.5px solid var(--green);color:var(--green);
+    border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;margin-top:2px;
+  }
+  .why-item h3{font-size:15.5px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;margin-bottom:5px}
+  .why-item p{font-size:14px;color:var(--muted)}
+
+  /* ---------- этапы ---------- */
+  .steps{display:grid;grid-template-columns:1fr;gap:12px;margin-top:40px}
+  @media(min-width:640px){.steps{grid-template-columns:repeat(2,1fr);gap:16px}}
+  @media(min-width:980px){.steps{grid-template-columns:repeat(4,1fr)}}
+  .step{padding:24px 20px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+  .step-num{font-size:12px;font-weight:800;color:var(--green);letter-spacing:.14em}
+  .step h3{font-size:15.5px;font-weight:800;margin:12px 0 5px;text-transform:uppercase;letter-spacing:.02em}
+  .step p{font-size:13.5px;color:var(--muted)}
+
+  /* ---------- отзывы ---------- */
+  .review-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:40px}
+  @media(min-width:840px){.review-grid{grid-template-columns:repeat(2,1fr);gap:16px}}
+  .review{
+    background:#fff;border:1px dashed var(--line);border-radius:var(--radius);padding:26px 22px;
+    display:flex;flex-direction:column;gap:12px;color:var(--muted);
+  }
+  .review b{color:var(--ink);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.04em}
+  .review p{font-size:14px}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{margin-top:40px;border-top:1px solid var(--line)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--ink);
+    font-family:inherit;font-size:15.5px;font-weight:800;padding:22px 0;
+    display:flex;justify-content:space-between;gap:16px;align-items:center;
+  }
+  .faq-q:hover{color:var(--green)}
+  .faq-q .plus{flex:none;width:16px;height:16px;position:relative}
+  .faq-q .plus::before,.faq-q .plus::after{content:"";position:absolute;background:var(--green)}
+  .faq-q .plus::before{top:7px;left:0;width:16px;height:2px}
+  .faq-q .plus::after{left:7px;top:0;width:2px;height:16px;transition:transform .25s}
+  .faq-item.open .plus::after{transform:scaleY(0)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .faq-a p{color:var(--muted);font-size:14.5px;padding:0 32px 22px 0}
+  @media(max-width:560px){.faq-a p{padding-right:0}}
+
+  /* ---------- финальный CTA ---------- */
+  .cta{text-align:center}
+  .cta h2{font-size:clamp(32px,8vw,64px)}
+  .cta .lead{margin:16px auto 32px}
+  .cta-btns{display:flex;flex-direction:column;gap:10px;align-items:stretch;max-width:440px;margin:0 auto}
+  @media(min-width:560px){.cta-btns{flex-direction:row;justify-content:center;max-width:none}}
+
+  /* ---------- подвал ---------- */
+  footer.site{padding:34px 0 118px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+  @media(min-width:761px){footer.site{padding-bottom:40px}}
+  .footer-contacts{display:flex;gap:10px;flex-wrap:wrap}
+  .footer-contacts a{
+    display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:1px solid var(--line);
+    border-radius:999px;font-size:13.5px;color:var(--ink);font-weight:600;transition:border-color .15s,color .15s;
+  }
+  .footer-contacts a:hover{border-color:var(--green);color:var(--green)}
+  .footer-contacts svg{width:16px;height:16px;flex:none}
+  .footer-in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:24px;border-top:1px solid var(--line);padding-top:22px}
+
+  /* ---------- плавающая панель (мобильные) ---------- */
+  .float-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(244,244,242,.95);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+  }
+  .float-bar .btn{flex:1;padding:15px 10px;font-size:14.5px}
+  @media(max-width:760px){.float-bar{display:flex}}
+
+  /* ---------- появление при скролле ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.on{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .btn,.quiz-step,.case{transition:none;animation:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-in">
+    <a class="logo" href="#top" aria-label="Наверх">
+      <b>Veatum</b>
+      <small>Шейх Мутаев · цифровые решения</small>
+    </a>
+    <nav class="header-links">
+      <a href="#services">Услуги</a>
+      <a href="#cases">Работы</a>
+      <a href="#faq">Вопросы</a>
+      <a data-tg href="#" style="color:var(--green)">Telegram</a>
+      <a data-call href="#"><span data-phone-display></span></a>
+    </nav>
+  </div>
+</header>
+
+<!-- ГЕРОЙ -->
+<div class="hero" id="top">
+  <span class="hero-mark" aria-hidden="true">VEATUM</span>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Цифровые решения · Махачкала · весь Кавказ</p>
+        <h1 class="h-disp">Сайты и приложения, которые приводят <em>клиентов</em></h1>
+        <p class="lead">Продающие сайты, веб-сервисы, Telegram-приложения и QR-меню для бизнеса Дагестана. Полный цикл <b>в одних руках</b> — благодаря современным инструментам и ИИ делаю быстрее и дешевле студии, без потери качества. Объясняю простым языком.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-green" data-wa href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.32A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.06.79.82-2.98-.2-.31A8.2 8.2 0 1 1 12 20.2Zm4.5-6.14c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.35-2.93c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.16 0-.43.06-.66.3-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.6.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.2-.57.2-1.06.14-1.17-.06-.1-.22-.16-.47-.28Z"/></svg>
+            Обсудить в WhatsApp
+          </a>
+          <a class="btn btn-ghost" data-tg href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.9c-1.2.5-1.1 2.2.1 2.6l4.6 1.5 1.8 5.5c.4 1.1 1.8 1.4 2.6.5l2.1-2.3 4.3 3.1c1 .7 2.4.2 2.7-1l3-15.2ZM8.2 13.3l9.3-5.8c.4-.2.7.3.4.6l-7.1 6.7c-.3.3-.5.7-.6 1.1l-.3 2.2c0 .3-.5.4-.6 0l-1.2-4c-.1-.4 0-.7.1-.8Z"/></svg>
+            Написать в Telegram
+          </a>
+        </div>
+        <p class="hero-note">Консультация — <b>бесплатно</b>. Расскажите о задаче, подскажу решение и честную цену.</p>
+      </div>
+      <div class="portrait reveal">
+        <span class="portrait-fallback">ШМ</span>
+        <img src="photo.jpg" alt="Шейх Мутаев — разработчик цифровых решений, Махачкала" onerror="this.style.display='none'">
+        <div class="portrait-cap">Шейх Мутаев<em>Veatum · основатель</em></div>
+      </div>
+    </div>
+
+    <div class="trust reveal">
+      <div><b>Полный цикл</b>дизайн, разработка, запуск — один исполнитель</div>
+      <div><b>Опыт big tech</b>аналитик данных в Авито — крупнейшем классифайде России</div>
+      <div><b>0 ₽</b>консультация и оценка задачи</div>
+    </div>
+  </div>
+</div>
+
+<!-- ЧЁРНАЯ ЛЕНТА КАТЕГОРИЙ -->
+<div class="catbar">
+  <div class="wrap catbar-in">
+    <a class="cat" href="#services"><i>01</i><b>Сайты</b><span>лендинги · магазины · визитки</span></a>
+    <a class="cat" href="#services"><i>02</i><b>Приложения</b><span>кабинеты · учёт · бронирование</span></a>
+    <a class="cat" href="#services"><i>03</i><b>Telegram</b><span>мини-приложения · магазины</span></a>
+    <a class="cat" href="#services"><i>04</i><b>QR-меню</b><span>для кафе и столовых</span></a>
+  </div>
+</div>
+
+<!-- КВИЗ -->
+<section id="quiz">
+  <div class="wrap">
+    <p class="eyebrow reveal">Быстрый расчёт</p>
+    <h2 class="h-disp reveal">Подскажу решение — <em>4 вопроса</em></h2>
+    <p class="lead reveal">Меньше минуты. В конце опишу, что подойдёт вашему бизнесу, и назову честную цену.</p>
+
+    <div class="quiz reveal" id="quizBox">
+      <div class="quiz-top">
+        <span class="quiz-step-label" id="quizLabel">Шаг 1 из 4</span>
+        <div class="quiz-bar"><i id="quizBar"></i></div>
+      </div>
+
+      <div class="quiz-step active" data-step="1">
+        <div class="quiz-q">Какой у вас бизнес?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" data-key="Бизнес" data-val="Кафе / столовая"><span class="dot"></span>Кафе / столовая</button>
+          <button class="quiz-opt" data-key="Бизнес" data-val="Магазин / товары"><span class="dot"></span>Магазин / товары</button>
+          <button class="quiz-opt" data-key="Бизнес" data-val="Услуги / сервис"><span class="dot"></span>Услуги / сервис</button>
+          <button class="quiz-opt" data-key="Бизнес" data-val="Другое"><span class="dot"></span>Другое</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="2">
+        <div class="quiz-q">Что нужно?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" data-key="Задача" data-val="Сайт"><span class="dot"></span>Сайт</button>
+          <button class="quiz-opt" data-key="Задача" data-val="Приложение / сервис"><span class="dot"></span>Приложение / сервис</button>
+          <button class="quiz-opt" data-key="Задача" data-val="Telegram-приложение"><span class="dot"></span>Telegram</button>
+          <button class="quiz-opt" data-key="Задача" data-val="QR-меню"><span class="dot"></span>QR-меню</button>
+          <button class="quiz-opt" data-key="Задача" data-val="Не знаю, нужен совет"><span class="dot"></span>Не знаю — нужен совет</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="3">
+        <div class="quiz-q">Как срочно?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" data-key="Срок" data-val="Нужно уже вчера"><span class="dot"></span>Уже вчера</button>
+          <button class="quiz-opt" data-key="Срок" data-val="В этом месяце"><span class="dot"></span>В этом месяце</button>
+          <button class="quiz-opt" data-key="Срок" data-val="Пока просто узнаю"><span class="dot"></span>Просто узнаю</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="4">
+        <div class="quiz-q">Куда написать?</div>
+        <div class="quiz-fields">
+          <input type="text" id="quizName" placeholder="Как вас зовут" autocomplete="name">
+          <input type="tel" id="quizPhone" placeholder="Телефон (необязательно)" autocomplete="tel">
+        </div>
+        <p class="quiz-summary" id="quizSummary"></p>
+      </div>
+
+      <div class="quiz-nav">
+        <button class="quiz-back" id="quizBack" style="visibility:hidden">← Назад</button>
+        <div class="quiz-send" id="quizSend">
+          <a class="btn btn-green" id="quizWa" href="#">Отправить в WhatsApp</a>
+          <a class="btn btn-ghost" id="quizTg" href="#">В Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section id="services" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow reveal">Чем помогаю бизнесу</p>
+    <h2 class="h-disp reveal">Четыре направления — <em>под ключ</em></h2>
+    <div class="svc-list">
+      <div class="svc reveal">
+        <div class="svc-head"><i>01</i><h3>Сайты и веб-присутствие</h3></div>
+        <div class="svc-items">
+          <div class="svc-item"><b>Продающие лендинги и визитки</b><span>чтобы бизнес нашли и оставили заявку</span></div>
+          <div class="svc-item"><b>Многостраничные сайты</b><span>для клиник, отелей, застройщиков, автосалонов</span></div>
+          <div class="svc-item"><b>Интернет-магазины и каталоги</b><span>продавайте онлайн без комиссий маркетплейсов</span></div>
+          <div class="svc-item"><b>Присутствие под ключ</b><span>2ГИС, Яндекс, карты, домен, почта — чтобы находили и доверяли</span></div>
+          <div class="svc-item"><b>Редизайн старых сайтов</b><span>устаревший сайт → современный</span></div>
+        </div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-head"><i>02</i><h3>Веб-приложения и сервисы</h3></div>
+        <div class="svc-items">
+          <div class="svc-item"><b>Личные кабинеты клиентов</b><span>статус заказа, история, документы онлайн</span></div>
+          <div class="svc-item"><b>Калькуляторы стоимости</b><span>смета на ремонт, мебель, тур — прямо на сайте</span></div>
+          <div class="svc-item"><b>Конфигураторы</b><span>клиент сам собирает заказ и видит цену</span></div>
+          <div class="svc-item"><b>Инструменты учёта</b><span>замена тетрадей и Excel: заявки, клиенты, заказы</span></div>
+          <div class="svc-item"><b>Онлайн-бронирование</b><span>гостевые дома, залы, бани, аренда авто и техники</span></div>
+          <div class="svc-item"><b>B2B-порталы</b><span>кабинеты для партнёров и дилеров</span></div>
+        </div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-head"><i>03</i><h3>Telegram мини-приложения</h3></div>
+        <div class="svc-items">
+          <div class="svc-item"><b>Приложение внутри Telegram</b><span>там, где уже сидят ваши клиенты — без установок</span></div>
+          <div class="svc-item"><b>Магазин или каталог</b><span>приём заказов и записей в привычном мессенджере</span></div>
+          <div class="svc-item"><b>Мини-CRM</b><span>ведение клиентов прямо в Telegram</span></div>
+        </div>
+      </div>
+      <div class="svc reveal">
+        <div class="svc-head"><i>04</i><h3>QR-меню для кафе и столовых</h3></div>
+        <div class="svc-items">
+          <div class="svc-item"><b>QR-код на столе</b><span>красивое меню в телефоне гостя</span></div>
+          <div class="svc-item"><b>Обновления за минуту</b><span>меняете блюда и цены сами, без перепечатки бумаги</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КЕЙСЫ -->
+<section class="sec-black on-black" id="cases">
+  <div class="wrap">
+    <p class="eyebrow reveal">Работы</p>
+    <h2 class="h-disp reveal">Живые проекты — <em>можно кликнуть</em></h2>
+    <p class="lead reveal">Не картинки из портфолио, а работающие сайты реальных заказчиков.</p>
+    <div class="cases">
+      <a class="case reveal" href="https://iminrieltor.ru" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-imin.jpg" alt="Лендинг риелтора iminrieltor.ru" onerror="this.parentElement.textContent='скриншот скоро'"></div>
+        <div class="case-body">
+          <b>Лендинг риелтора «Этажей»</b>
+          <p>Продающий одностраничник в фирменном стиле: квиз-анкета, заявки в WhatsApp, свой домен. Клиент получает готовые заявки из Instagram-трафика.</p>
+          <span class="case-link">iminrieltor.ru →</span>
+        </div>
+      </a>
+      <a class="case reveal" href="#" onclick="return false">
+        <div class="case-shot"><img src="case-granat.jpg" alt="Сайт кулинарии Гранат" onerror="this.parentElement.textContent='скриншот скоро'"></div>
+        <div class="case-body">
+          <b>«Гранат» — кулинария, Каспийск</b>
+          <p>Сайт с меню и корзиной: гость собирает заказ, менеджер получает его в WhatsApp. Плюс админка, где владелец сам меняет блюда и цены.</p>
+          <span class="case-link">кейс →</span>
+        </div>
+      </a>
+      <a class="case reveal" href="#" onclick="return false">
+        <div class="case-shot"><img src="case-tvoyday.jpg" alt="Свадебный маркетплейс TvoyDay" onerror="this.parentElement.textContent='скриншот скоро'"></div>
+        <div class="case-body">
+          <b>TvoyDay — свадебный маркетплейс</b>
+          <p>Каталог свадебных услуг Дагестана: подрядчики, портфолио, заявки. Полноценная платформа, а не просто сайт.</p>
+          <span class="case-link">кейс →</span>
+        </div>
+      </a>
+      <a class="case reveal" data-wa href="#">
+        <div class="case-shot" style="background:linear-gradient(135deg,#143D2E,#0D2B20);color:#7FBFA4">ваш проект</div>
+        <div class="case-body">
+          <b>Здесь может быть ваш бизнес</b>
+          <p>Расскажите о задаче — предложу решение, срок и честную цену. Консультация бесплатная.</p>
+          <span class="case-link">обсудить →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ПОЧЕМУ Я -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">Почему со мной удобно</p>
+    <h2 class="h-disp reveal">Один исполнитель вместо <em>целой студии</em></h2>
+    <div class="why-grid">
+      <div class="why-item reveal"><i>01</i><div>
+        <h3>Полный цикл в одних руках</h3>
+        <p>Не нужно искать отдельно дизайнера, программиста и того, кто «настроит домен». Всё делаю сам — от идеи до работающего сайта.</p>
+      </div></div>
+      <div class="why-item reveal"><i>02</i><div>
+        <h3>Быстро — без потери качества</h3>
+        <p>Современные инструменты и ИИ позволяют одному человеку делать то, на что студии берут недели. Лендинг — дни, а не месяцы.</p>
+      </div></div>
+      <div class="why-item reveal"><i>03</i><div>
+        <h3>Понятно, без жаргона</h3>
+        <p>Объясняю простым языком: что делаем, зачем и сколько стоит. Никаких «фреймворков» и «деплоев» в разговоре с вами.</p>
+      </div></div>
+      <div class="why-item reveal"><i>04</i><div>
+        <h3>Местный и на связи</h3>
+        <p>Работаю с бизнесом Дагестана и Кавказа, понимаю специфику. После запуска не пропадаю — поддерживаю и дорабатываю.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ЭТАПЫ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow reveal">Как проходит работа</p>
+    <h2 class="h-disp reveal">Четыре шага <em>до запуска</em></h2>
+    <div class="steps">
+      <div class="step reveal"><div class="step-num">ШАГ 01</div><h3>Консультация</h3><p>Обсуждаем задачу и цель. Бесплатно, ни к чему не обязывает.</p></div>
+      <div class="step reveal"><div class="step-num">ШАГ 02</div><h3>Предложение и цена</h3><p>Понятная смета без сюрпризов и скрытых доплат.</p></div>
+      <div class="step reveal"><div class="step-num">ШАГ 03</div><h3>Разработка</h3><p>Показываю промежуточный результат — вы всегда видите, что получается.</p></div>
+      <div class="step reveal"><div class="step-num">ШАГ 04</div><h3>Запуск и поддержка</h3><p>Всё работает, я на связи. Не бросаю проект после сдачи.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow reveal">Отзывы</p>
+    <h2 class="h-disp reveal">Что говорят <em>клиенты</em></h2>
+    <div class="review-grid">
+      <div class="review reveal"><b>Место для отзыва</b><p>Здесь появится отзыв первого клиента — честный, с именем и названием бизнеса. Выдуманных отзывов на этом сайте нет.</p></div>
+      <div class="review reveal"><b>Место для отзыва</b><p>Сдал проект — попросил два предложения о работе. Скоро заполнится.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow reveal">Частые вопросы</p>
+    <h2 class="h-disp reveal">Спрашивают <em>чаще всего</em></h2>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">Сколько это стоит?<span class="plus"></span></button>
+        <div class="faq-a"><p>Зависит от задачи: лендинг, магазин и приложение — это разные объёмы работы. После бесплатной консультации назову точную цену и зафиксирую её — без доплат «по ходу». Ориентиры по вилкам озвучиваю сразу в переписке.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Какие сроки?<span class="plus"></span></button>
+        <div class="faq-a"><p>Лендинг — считанные дни. Магазин, приложение или Telegram-решение — от одной-двух недель в зависимости от объёма. Точный срок фиксируем на старте, и я показываю промежуточный результат по ходу работы.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Что нужно от меня как от клиента?<span class="plus"></span></button>
+        <div class="faq-a"><p>Минимум: рассказать о бизнесе и задаче, дать фото/логотип и контакты, отвечать на короткие вопросы по ходу. Тексты, структуру и дизайн беру на себя.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Надо ли платить каждый месяц?<span class="plus"></span></button>
+        <div class="faq-a"><p>Нет. Сайты делаю так, что ежемесячной платы за платформу нет вообще — в отличие от конструкторов типа Тильды (от 9 000 ₽/год). Ваш регулярный расход — только продление домена, ~300–500 ₽ в год.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">У меня уже есть старый сайт — что с ним делать?<span class="plus"></span></button>
+        <div class="faq-a"><p>Посмотрю и честно скажу: иногда достаточно освежить дизайн и поправить тексты, иногда быстрее собрать заново. Домен и адрес сайта при этом сохраняются.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Что будет после запуска?<span class="plus"></span></button>
+        <div class="faq-a"><p>Не пропадаю: мелкие правки в первый месяц — бесплатно, дальше — поддержка по договорённости. Сайт остаётся полностью вашим: домен и код на ваших аккаунтах.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАЛЬНЫЙ CTA -->
+<section class="cta sec-black on-black">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="justify-content:center">Начнём с разговора</p>
+    <h2 class="h-disp reveal">Расскажите о задаче — <em>решение сегодня</em></h2>
+    <p class="lead reveal" style="margin-left:auto;margin-right:auto">Напишите в WhatsApp или Telegram: консультация бесплатна и ни к чему не обязывает.</p>
+    <div class="cta-btns reveal">
+      <a class="btn btn-green" data-wa href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.32A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.06.79.82-2.98-.2-.31A8.2 8.2 0 1 1 12 20.2Zm4.5-6.14c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.35-2.93c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.16 0-.43.06-.66.3-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.6.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.2-.57.2-1.06.14-1.17-.06-.1-.22-.16-.47-.28Z"/></svg>
+        Написать в WhatsApp
+      </a>
+      <a class="btn btn-ghost" data-tg href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.9c-1.2.5-1.1 2.2.1 2.6l4.6 1.5 1.8 5.5c.4 1.1 1.8 1.4 2.6.5l2.1-2.3 4.3 3.1c1 .7 2.4.2 2.7-1l3-15.2ZM8.2 13.3l9.3-5.8c.4-.2.7.3.4.6l-7.1 6.7c-.3.3-.5.7-.6 1.1l-.3 2.2c0 .3-.5.4-.6 0l-1.2-4c-.1-.4 0-.7.1-.8Z"/></svg>
+        Написать в Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="footer-contacts">
+      <a data-wa href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.32A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.06.79.82-2.98-.2-.31A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+        WhatsApp
+      </a>
+      <a data-tg href="#">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.9c-1.2.5-1.1 2.2.1 2.6l4.6 1.5 1.8 5.5c.4 1.1 1.8 1.4 2.6.5l2.1-2.3 4.3 3.1c1 .7 2.4.2 2.7-1l3-15.2Z"/></svg>
+        Telegram
+      </a>
+      <a data-call href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.25a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+        <span data-phone-display>Позвонить</span>
+      </a>
+    </div>
+    <div class="footer-in">
+      <div>© <span id="year"></span> Veatum · Шейх Мутаев · цифровые решения для бизнеса</div>
+      <div>Махачкала · Дагестан · весь Кавказ</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Плавающая панель на телефоне -->
+<div class="float-bar" role="navigation" aria-label="Быстрая связь">
+  <a class="btn btn-green" data-wa href="#">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.32A10 10 0 1 0 12 2Zm4.5 12.06c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.35-2.93c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.16 0-.43.06-.66.3-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74 1.48.64 2.06.7 2.8.59.45-.07 1.46-.6 1.67-1.18.2-.57.2-1.06.14-1.17-.06-.1-.22-.16-.47-.28Z"/></svg>
+    WhatsApp
+  </a>
+  <a class="btn btn-ghost" data-tg href="#">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.9c-1.2.5-1.1 2.2.1 2.6l4.6 1.5 1.8 5.5c.4 1.1 1.8 1.4 2.6.5l2.1-2.3 4.3 3.1c1 .7 2.4.2 2.7-1l3-15.2Z"/></svg>
+    Telegram
+  </a>
+</div>
+
+<script>
+  /* ============================================================
+     НАСТРОЙКИ — поменяйте только этот блок:
+     phone        — номер в международном формате, только цифры
+     phoneDisplay — как номер показывается на сайте
+     waText       — текст для WhatsApp
+     tgUser       — ник в Telegram без @
+     tgText       — текст для Telegram
+  ============================================================ */
+  const CONFIG = {
+    phone: "79658638835",
+    phoneDisplay: "+7 965 863-88-35",
+    waText: "Здравствуйте, Шейх! Пишу с сайта veatum.ru — хочу обсудить проект.",
+    tgUser: "veatum",
+    tgText: "Здравствуйте, Шейх! Пишу с сайта veatum.ru — хочу обсудить проект."
+  };
+
+  const waLink = "https://wa.me/" + CONFIG.phone + "?text=" + encodeURIComponent(CONFIG.waText);
+  const tgLink = "https://t.me/" + CONFIG.tgUser + "?text=" + encodeURIComponent(CONFIG.tgText);
+  const telLink = "tel:+" + CONFIG.phone;
+  document.querySelectorAll("[data-wa]").forEach(a => { a.href = waLink; a.target = "_blank"; a.rel = "noopener"; });
+  document.querySelectorAll("[data-tg]").forEach(a => { a.href = tgLink; a.target = "_blank"; a.rel = "noopener"; });
+  document.querySelectorAll("[data-call]").forEach(a => a.href = telLink);
+  document.querySelectorAll("[data-phone-display]").forEach(el => el.textContent = CONFIG.phoneDisplay);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* плавное появление блоков при прокрутке */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  /* ===== квиз ===== */
+  (function () {
+    const box = document.getElementById("quizBox");
+    if (!box) return;
+    const steps = Array.from(box.querySelectorAll(".quiz-step"));
+    const bar = document.getElementById("quizBar");
+    const label = document.getElementById("quizLabel");
+    const back = document.getElementById("quizBack");
+    const send = document.getElementById("quizSend");
+    const summary = document.getElementById("quizSummary");
+    const total = steps.length;
+    let cur = 0;
+    const answers = {};
+
+    function render() {
+      steps.forEach((s, i) => s.classList.toggle("active", i === cur));
+      bar.style.width = ((cur + 1) / total * 100) + "%";
+      label.textContent = "Шаг " + (cur + 1) + " из " + total;
+      back.style.visibility = cur === 0 ? "hidden" : "visible";
+      send.classList.toggle("show", cur === total - 1);
+      if (cur === total - 1) {
+        summary.textContent = Object.entries(answers).map(([k, v]) => k + ": " + v).join("   ·   ");
+      }
+    }
+
+    box.querySelectorAll(".quiz-opt").forEach(opt => {
+      opt.addEventListener("click", () => {
+        const step = opt.closest(".quiz-step");
+        step.querySelectorAll(".quiz-opt").forEach(o => o.classList.remove("sel"));
+        opt.classList.add("sel");
+        answers[opt.dataset.key] = opt.dataset.val;
+        if (cur < total - 1) setTimeout(() => { cur++; render(); }, 220);
+      });
+    });
+
+    back.addEventListener("click", () => { if (cur > 0) { cur--; render(); } });
+
+    function buildText() {
+      const name = document.getElementById("quizName").value.trim();
+      const phone = document.getElementById("quizPhone").value.trim();
+      let text = "Здравствуйте, Шейх! Заполнил(а) анкету на veatum.ru\n";
+      Object.entries(answers).forEach(([k, v]) => { text += k + ": " + v + "\n"; });
+      if (name) text += "Имя: " + name + "\n";
+      if (phone) text += "Телефон: " + phone;
+      return text;
+    }
+
+    document.getElementById("quizWa").addEventListener("click", e => {
+      e.preventDefault();
+      window.open("https://wa.me/" + CONFIG.phone + "?text=" + encodeURIComponent(buildText()), "_blank", "noopener");
+    });
+    document.getElementById("quizTg").addEventListener("click", e => {
+      e.preventDefault();
+      window.open("https://t.me/" + CONFIG.tgUser + "?text=" + encodeURIComponent(buildText()), "_blank", "noopener");
+    });
+
+    render();
+  })();
+
+  /* ===== FAQ ===== */
+  document.querySelectorAll(".faq-q").forEach(q => {
+    q.addEventListener("click", () => {
+      const item = q.closest(".faq-item");
+      const a = item.querySelector(".faq-a");
+      const open = item.classList.toggle("open");
+      a.style.maxHeight = open ? a.scrollHeight + "px" : null;
+    });
+  });
+</script>
+</body>
+</html>
