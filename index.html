@@ -110,6 +110,11 @@
     font-weight:900;font-size:clamp(84px,20vw,300px);letter-spacing:-.03em;line-height:1;
     color:var(--ink);user-select:none;pointer-events:none;will-change:transform;
   }
+  /* мобайл: буквы крупнее и выше — на уровне груди, смело уходят за края экрана */
+  @media(max-width:879px){
+    .hero-word{font-size:31vw;align-items:flex-start;padding-top:33%}
+    .hero-figure{height:90%}
+  }
   /* вырезанная фигура поверх букв — как модель в лукбуке */
   .hero-figure{
     position:relative;z-index:1;height:94%;width:auto;pointer-events:none;user-select:none;
