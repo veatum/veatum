@@ -34,7 +34,7 @@
     --radius:18px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:hidden;overflow-x:clip}
   body{
     background:var(--bg);
     color:var(--ink);
@@ -42,6 +42,8 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    overflow-x:clip;
   }
   ::selection{background:var(--green);color:#fff}
   a{color:inherit;text-decoration:none}
@@ -112,6 +114,7 @@
     font-weight:900;font-size:clamp(84px,20vw,300px);letter-spacing:-.03em;line-height:1;
     color:var(--ink);user-select:none;pointer-events:none;will-change:transform;
   }
+  .hero-word span{display:inline-block;will-change:transform,opacity}
   /* телефоны: буквы крупные, на уровне рук, уходят за края экрана */
   @media(max-width:640px){
     .hero-word{font-size:clamp(96px,31vw,150px);align-items:flex-start;padding-top:52%}
@@ -129,9 +132,33 @@
   }
   .figure-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);flex:none}
   @media(max-width:640px){
-    .figure-tag{left:50%;transform:translateX(-50%);bottom:-34px}
+    .figure-tag{--tag-x:-50%;left:50%;transform:translateX(-50%);bottom:-34px}
     .hero-stage{margin-bottom:44px}
   }
+  @media(max-width:759px) and (prefers-reduced-motion:no-preference){
+    .hero-tag{animation:heroCopyIn .62s .06s cubic-bezier(.2,.75,.2,1) both}
+    .hero-top .hero-year{animation:heroCopyIn .62s .14s cubic-bezier(.2,.75,.2,1) both}
+    .hero-word span{animation:heroLetterIn .82s cubic-bezier(.16,.82,.25,1) both;animation-delay:calc(.12s + var(--letter)*55ms)}
+    .hero-word span:nth-child(odd){--letter-x:-32vw;--letter-rot:-9deg}
+    .hero-word span:nth-child(even){--letter-x:32vw;--letter-rot:9deg}
+    .hero-figure{animation:heroFigureIn .92s .24s cubic-bezier(.16,.82,.25,1) both}
+    .figure-tag{animation:heroTagIn .6s .72s ease both}
+    .hero-sub{animation:heroCopyIn .64s .66s cubic-bezier(.2,.75,.2,1) both}
+    .hero-lead{animation:heroCopyIn .64s .76s cubic-bezier(.2,.75,.2,1) both}
+    .hero-bottom{animation:heroCopyIn .64s .86s cubic-bezier(.2,.75,.2,1) both}
+    .mobile-work-link{animation:mobileLinkPulse 1.25s 1.3s ease-in-out 2}
+  }
+  @keyframes heroLetterIn{
+    from{opacity:0;transform:translate3d(var(--letter-x),34px,0) rotate(var(--letter-rot)) scale(.72)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes heroFigureIn{
+    from{opacity:0;transform:translate3d(0,68px,0) scale(.92);filter:grayscale(1) contrast(1.06) blur(8px) drop-shadow(0 26px 44px rgba(0,0,0,.1))}
+    to{opacity:1;transform:none;filter:grayscale(1) contrast(1.06) blur(0) drop-shadow(0 26px 44px rgba(0,0,0,.28))}
+  }
+  @keyframes heroCopyIn{from{opacity:0;transform:translate3d(0,24px,0)}to{opacity:1;transform:none}}
+  @keyframes heroTagIn{from{opacity:0;transform:translate(var(--tag-x,0),18px)}to{opacity:1;transform:translate(var(--tag-x,0),0)}}
+  @keyframes mobileLinkPulse{50%{transform:scale(1.06);text-shadow:0 0 16px rgba(18,86,63,.42)}}
   .hero-sub{
     text-align:center;font-weight:900;text-transform:uppercase;letter-spacing:.01em;
     font-size:clamp(18px,4.2vw,27px);margin:26px auto 10px;max-width:22ch;line-height:1.25;text-wrap:balance;
@@ -166,7 +193,7 @@
 
   /* ---------- бегущая строка ---------- */
   .ticker{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;background:var(--bg)}
-  .ticker-in{display:flex;width:max-content;animation:tick 32s linear infinite}
+  .ticker-in{display:flex;width:max-content;animation:tick 32s linear infinite;will-change:transform}
   .ticker span{
     font-weight:900;text-transform:uppercase;font-size:clamp(26px,5vw,46px);letter-spacing:.02em;
     white-space:nowrap;color:rgba(17,18,19,.05);-webkit-text-stroke:1px #A9AAA4;padding-right:.6em;
@@ -269,7 +296,7 @@
   .svc-item p{font-size:13.5px;color:var(--muted);margin-top:2px}
 
   /* ---------- проекты: сразу после первого экрана ---------- */
-  .portfolio-first{position:relative;overflow:hidden;padding-top:72px}
+  .portfolio-first{position:relative;overflow:hidden;overflow:clip;padding-top:72px}
   .portfolio-first .wrap{position:relative;z-index:2}
   .portfolio-word{
     position:absolute;top:6px;left:-3vw;z-index:0;pointer-events:none;user-select:none;
@@ -294,6 +321,7 @@
   .case-filter:focus-visible{outline:2px solid #7FBFA4;outline-offset:3px}
   .portfolio-hint{display:flex;align-items:center;gap:10px;margin-top:18px;color:#777;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
   .portfolio-hint::before{content:"";width:34px;height:1px;background:#555}
+  .case-progress{display:none}
   .cases{display:grid;grid-template-columns:1fr;gap:14px;margin-top:34px}
   @media(min-width:820px){.cases{grid-template-columns:repeat(2,1fr);gap:18px}}
   .case{
@@ -308,6 +336,10 @@
     content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
     background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(127,191,164,.14),transparent 60%);
     transition:opacity .25s ease;
+  }
+  .case::before{
+    content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:rgba(4,9,7,var(--stack-dim,0));transition:background .2s linear;
   }
   .case:hover::after{opacity:1}
   .case-shot{
@@ -335,9 +367,57 @@
   @keyframes orbit{50%{transform:translate(12px,8px) scale(1.08);opacity:.55}}
   .portfolio-close{display:flex;justify-content:space-between;gap:22px;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid #2A2B2B;color:#909291;font-size:13px}
   .portfolio-close a{color:#A5D8C1;font-weight:700;white-space:nowrap}
-  @media(max-width:620px){
+  @media(max-width:759px){
     .portfolio-first{padding-top:58px}
+    .portfolio-first::after{
+      content:"";position:absolute;inset:8% -45% auto;height:38vh;pointer-events:none;
+      background:radial-gradient(circle,rgba(18,86,63,.22),transparent 66%);
+      transform:translate3d(var(--portfolio-glow-x,0),var(--portfolio-glow-y,0),0);
+      transition:transform .16s linear;filter:blur(12px);
+    }
+    .case-progress{
+      position:sticky;top:10px;z-index:45;margin:22px 0 18px;padding:10px 12px;
+      display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;
+      background:rgba(13,15,14,.82);border:1px solid #343736;border-radius:999px;
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      box-shadow:0 10px 28px rgba(0,0,0,.24);
+    }
+    .case-progress-count{display:flex;align-items:baseline;gap:4px;min-width:47px;font-weight:900;font-size:14px;color:#fff}
+    .case-progress-count i{font-style:normal;color:#606462;font-size:10px}
+    .case-progress-track{height:2px;background:#323534;overflow:hidden;border-radius:99px}
+    .case-progress-track i{display:block;width:var(--case-progress,16.67%);height:100%;background:#7FBFA4;border-radius:inherit;transition:width .25s ease}
+    .case-progress-label{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#858987;white-space:nowrap}
+    .cases{display:block;margin-top:0;position:relative}
+    .case{
+      position:sticky;top:calc(66px + var(--stack-index,0)*7px);z-index:calc(5 + var(--stack-index,0));
+      margin:0 0 19vh;transform-origin:50% 10%;
+      box-shadow:0 18px 46px rgba(0,0,0,.32);
+    }
+    .case:last-child{margin-bottom:7vh}
+    .case.reveal.on{
+      transform:translate3d(0,var(--stack-y,0px),0) scale(var(--stack-scale,1));
+      opacity:var(--stack-opacity,1);border-color:var(--stack-border,#2A2B2B);
+    }
+    .case.reveal.on:hover{transform:translate3d(0,var(--stack-y,0px),0) scale(var(--stack-scale,1))}
+    .case.is-active{--stack-border:#557265;box-shadow:0 22px 58px rgba(0,0,0,.42),0 0 0 1px rgba(127,191,164,.08)}
+    .case-shot img{transition:transform .16s linear}
+    .portfolio-close{margin-top:6vh}
+  }
+  @media(max-width:620px){
     .portfolio-close{align-items:flex-start;flex-direction:column}
+  }
+
+  /* ---------- отклик на касание ---------- */
+  .touch-react{overflow:hidden;-webkit-tap-highlight-color:transparent}
+  .touch-react:not(.case){position:relative}
+  .touch-ripple{
+    position:absolute;z-index:8;width:12px;height:12px;border-radius:50%;pointer-events:none;
+    background:rgba(127,191,164,.32);transform:translate(-50%,-50%) scale(0);
+    animation:touchRipple .62s ease-out forwards;
+  }
+  @keyframes touchRipple{to{opacity:0;transform:translate(-50%,-50%) scale(34)}}
+  @media(hover:none){
+    .btn:active,.case-filter:active,.tab:active,.cat:active{filter:brightness(.9)}
   }
 
   /* ---------- почему я ---------- */
@@ -432,14 +512,26 @@
   /* ---------- появление при скролле ---------- */
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
   .reveal.on{opacity:1;transform:none}
+  @media(max-width:759px) and (prefers-reduced-motion:no-preference){
+    h2.h-disp.reveal{clip-path:inset(0 0 68% 0);transform:translateY(30px);transition:opacity .7s ease,transform .72s cubic-bezier(.2,.75,.2,1),clip-path .72s cubic-bezier(.2,.75,.2,1)}
+    h2.h-disp.reveal.on{clip-path:inset(0);transform:none}
+    .why-item.reveal:nth-child(odd),.step.reveal:nth-child(odd),.review.reveal:nth-child(odd){transform:translateX(-28px)}
+    .why-item.reveal:nth-child(even),.step.reveal:nth-child(even),.review.reveal:nth-child(even){transform:translateX(28px)}
+    .why-item.reveal.on,.step.reveal.on,.review.reveal.on{transform:none}
+  }
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
-    .btn,.quiz-step,.case,.case-shot img,.svc-item,.step,.case-idea::before,.case-idea::after{transition:none;animation:none}
+    .btn,.quiz-step,.case,.case-shot img,.svc-item,.step,.case-idea::before,.case-idea::after,.case-progress-track i{transition:none;animation:none}
     .ticker-in{animation:none}
     .status i{animation:none}
     .show .svc-item{animation:none}
     .portfolio-word{transform:none!important}
+    .portfolio-first::after{display:none}
+  }
+  @media(max-width:759px) and (prefers-reduced-motion:reduce){
+    .case-progress{position:relative;top:auto}
+    .case{position:relative;top:auto!important;margin-bottom:14px!important;transform:none!important;opacity:1!important}
   }
 </style>
 </head>
@@ -473,8 +565,8 @@
     </div>
 
     <div class="hero-stage">
-      <div class="hero-word" aria-hidden="true">VEATUM</div>
-      <img class="hero-figure reveal" src="hero-cut.webp" alt="Шейх Мутаев — основатель Veatum">
+      <div class="hero-word" aria-hidden="true"><span style="--letter:0">V</span><span style="--letter:1">E</span><span style="--letter:2">A</span><span style="--letter:3">T</span><span style="--letter:4">U</span><span style="--letter:5">M</span></div>
+      <img class="hero-figure" src="hero-cut.webp" alt="Шейх Мутаев — основатель Veatum">
       <span class="figure-tag">Шейх Мутаев · основатель</span>
     </div>
 
@@ -530,6 +622,12 @@
       <button class="case-filter" type="button" data-case-filter="expert" aria-pressed="false">Специалист</button>
     </div>
     <p class="portfolio-hint reveal">Нажмите на проект, чтобы открыть демо</p>
+
+    <div class="case-progress" id="caseProgress" role="status" aria-live="polite" aria-label="Текущий проект">
+      <span class="case-progress-count"><b id="caseCurrent">01</b><i>/</i><span id="caseTotal">06</span></span>
+      <span class="case-progress-track" aria-hidden="true"><i id="caseProgressBar"></i></span>
+      <span class="case-progress-label">листайте вниз</span>
+    </div>
 
     <div class="cases" id="caseGrid">
       <a class="case reveal" data-case-type="shop" href="https://veatum.github.io/mensstyle-demo/" target="_blank" rel="noopener">
@@ -949,14 +1047,72 @@
   document.querySelectorAll("[data-phone-display]").forEach(el => el.textContent = CONFIG.phoneDisplay);
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* прогресс чтения, параллакс героя и движение превью проектов */
+  /* прогресс чтения, параллакс героя и живая стопка проектов */
   const sb = document.getElementById("scrollbar");
   const word = document.querySelector(".hero-word");
   const portfolio = document.getElementById("cases");
   const portfolioWord = document.getElementById("portfolioWord");
   const movingCases = Array.from(document.querySelectorAll(".case"));
+  const caseProgress = document.getElementById("caseProgress");
+  const caseCurrent = document.getElementById("caseCurrent");
+  const caseTotal = document.getElementById("caseTotal");
+  const caseProgressBar = document.getElementById("caseProgressBar");
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const tickerAnimations = reduceMotion ? [] : Array.from(document.querySelectorAll(".ticker-in"))
+    .map(el => el.getAnimations()[0]).filter(Boolean);
+  let visibleCases = movingCases.slice();
+  let previousScrollY = scrollY;
   let scrollFrame = 0;
+
+  function syncStackCases() {
+    visibleCases = movingCases.filter(card => !card.hidden);
+    visibleCases.forEach((card, index) => {
+      card.style.setProperty("--stack-index", index);
+      card.style.zIndex = String(5 + index);
+    });
+    const total = Math.max(1, visibleCases.length);
+    if (caseTotal) caseTotal.textContent = String(total).padStart(2, "0");
+    if (caseCurrent) caseCurrent.textContent = "01";
+    if (caseProgressBar) caseProgressBar.style.setProperty("--case-progress", (100 / total) + "%");
+    if (caseProgress) caseProgress.setAttribute("aria-label", "Проект 1 из " + total);
+  }
+
+  function updateMobileStack() {
+    if (innerWidth >= 760 || reduceMotion || !visibleCases.length) return;
+    const trigger = innerHeight * .42;
+    const overlapStart = innerHeight * .76;
+    let active = 0;
+
+    visibleCases.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top <= trigger) active = index;
+      const next = visibleCases[index + 1];
+      const nextTop = next ? next.getBoundingClientRect().top : innerHeight * 2;
+      const stickyTop = 66 + index * 7;
+      const overlapRange = Math.max(1, overlapStart - stickyTop);
+      const overlap = next ? Math.max(0, Math.min(1, (overlapStart - nextTop) / overlapRange)) : 0;
+      const imagePosition = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - innerHeight / 2) / innerHeight));
+
+      card.style.setProperty("--stack-scale", (1 - overlap * .055).toFixed(3));
+      card.style.setProperty("--stack-opacity", (1 - overlap * .16).toFixed(3));
+      card.style.setProperty("--stack-dim", (overlap * .22).toFixed(3));
+      card.style.setProperty("--stack-y", (-overlap * 3).toFixed(2) + "px");
+      card.style.setProperty("--img-y", (-imagePosition * 14).toFixed(2) + "px");
+    });
+
+    visibleCases.forEach((card, index) => card.classList.toggle("is-active", index === active));
+    const total = visibleCases.length;
+    if (caseCurrent) caseCurrent.textContent = String(active + 1).padStart(2, "0");
+    if (caseTotal) caseTotal.textContent = String(total).padStart(2, "0");
+    if (caseProgressBar) caseProgressBar.style.setProperty("--case-progress", ((active + 1) / total * 100) + "%");
+    if (caseProgress) caseProgress.setAttribute("aria-label", "Проект " + (active + 1) + " из " + total);
+    if (portfolio) {
+      const progress = total > 1 ? active / (total - 1) : 0;
+      portfolio.style.setProperty("--portfolio-glow-x", ((progress - .5) * 34) + "vw");
+      portfolio.style.setProperty("--portfolio-glow-y", (progress * 22) + "vh");
+    }
+  }
+
   function updateScrollEffects() {
     const h = document.documentElement;
     const pageRange = Math.max(1, h.scrollHeight - h.clientHeight);
@@ -978,13 +1134,25 @@
         });
       }
     }
+    updateMobileStack();
+
+    if (tickerAnimations.length) {
+      const delta = h.scrollTop - previousScrollY;
+      if (Math.abs(delta) > .5) {
+        const direction = delta > 0 ? 1 : -1;
+        const rate = Math.min(2.7, 1 + Math.abs(delta) / 22);
+        tickerAnimations.forEach(animation => { animation.playbackRate = direction * rate; });
+      }
+      previousScrollY = h.scrollTop;
+    }
     scrollFrame = 0;
   }
   function requestScrollEffects() {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollEffects);
   }
   addEventListener("scroll", requestScrollEffects, { passive: true });
-  addEventListener("resize", requestScrollEffects, { passive: true });
+  addEventListener("resize", () => { syncStackCases(); requestScrollEffects(); }, { passive: true });
+  syncStackCases();
   updateScrollEffects();
 
   /* магнитные зелёные кнопки (только мышь, не тач) */
@@ -1003,7 +1171,7 @@
   /* плавное появление блоков при прокрутке */
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.06, rootMargin: "0px 0px 12% 0px" });
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
   /* ===== фильтр и интерактивный свет на карточках проектов ===== */
@@ -1019,6 +1187,7 @@
       movingCases.forEach(card => {
         card.hidden = selected !== "all" && card.dataset.caseType !== selected && card.dataset.caseType !== "all";
       });
+      syncStackCases();
       requestScrollEffects();
     });
   });
@@ -1029,6 +1198,22 @@
         const rect = card.getBoundingClientRect();
         card.style.setProperty("--mx", (event.clientX - rect.left) + "px");
         card.style.setProperty("--my", (event.clientY - rect.top) + "px");
+      });
+    });
+  }
+
+  /* короткая волна в точке касания — работает и пальцем, и мышью */
+  if (!reduceMotion) {
+    document.querySelectorAll(".btn,.case,.case-filter,.tab,.cat,.faq-q,.mobile-work-link").forEach(target => {
+      target.classList.add("touch-react");
+      target.addEventListener("pointerdown", event => {
+        const rect = target.getBoundingClientRect();
+        const ripple = document.createElement("span");
+        ripple.className = "touch-ripple";
+        ripple.style.left = (event.clientX - rect.left) + "px";
+        ripple.style.top = (event.clientY - rect.top) + "px";
+        target.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 680);
       });
     });
   }
