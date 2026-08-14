@@ -396,7 +396,7 @@
     .case:last-child{margin-bottom:7vh}
     .case.reveal.on{
       transform:translate3d(0,var(--stack-y,0px),0) scale(var(--stack-scale,1));
-      opacity:var(--stack-opacity,1);border-color:var(--stack-border,#2A2B2B);
+      opacity:1;border-color:var(--stack-border,#2A2B2B);
     }
     .case.reveal.on:hover{transform:translate3d(0,var(--stack-y,0px),0) scale(var(--stack-scale,1))}
     .case.is-active{--stack-border:#557265;box-shadow:0 22px 58px rgba(0,0,0,.42),0 0 0 1px rgba(127,191,164,.08)}
@@ -1094,7 +1094,6 @@
       const imagePosition = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - innerHeight / 2) / innerHeight));
 
       card.style.setProperty("--stack-scale", (1 - overlap * .055).toFixed(3));
-      card.style.setProperty("--stack-opacity", (1 - overlap * .16).toFixed(3));
       card.style.setProperty("--stack-dim", (overlap * .22).toFixed(3));
       card.style.setProperty("--stack-y", (-overlap * 3).toFixed(2) + "px");
       card.style.setProperty("--img-y", (-imagePosition * 14).toFixed(2) + "px");
