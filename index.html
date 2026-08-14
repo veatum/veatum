@@ -91,10 +91,12 @@
   .logo small{font-size:11.5px;color:var(--muted);letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .header-links{display:flex;align-items:center;gap:18px;font-size:14px;font-weight:600}
   .header-links a:hover{color:var(--green)}
+  .mobile-work-link{display:none;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--green);white-space:nowrap}
   .status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.02em}
   .status i{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(18,86,63,.35)}50%{box-shadow:0 0 0 6px rgba(18,86,63,0)}}
-  @media(max-width:700px){.header-links{display:none}}
+  @media(max-width:700px){.header-links{display:none}.mobile-work-link{display:block}}
+  @media(max-width:480px){.logo small{display:none}}
 
   /* ---------- герой: гигантское слово + фото поверх ---------- */
   .hero{position:relative;padding:26px 0 0;overflow:hidden}
@@ -266,40 +268,77 @@
   .svc-item b{display:block;font-size:14.5px;font-weight:700;line-height:1.35}
   .svc-item p{font-size:13.5px;color:var(--muted);margin-top:2px}
 
-  /* ---------- кейсы ---------- */
-  .cases{display:grid;grid-template-columns:1fr;gap:14px;margin-top:40px}
+  /* ---------- проекты: сразу после первого экрана ---------- */
+  .portfolio-first{position:relative;overflow:hidden;padding-top:72px}
+  .portfolio-first .wrap{position:relative;z-index:2}
+  .portfolio-word{
+    position:absolute;top:6px;left:-3vw;z-index:0;pointer-events:none;user-select:none;
+    font-size:clamp(88px,18vw,250px);font-weight:900;line-height:.8;letter-spacing:-.07em;
+    color:rgba(255,255,255,.025);-webkit-text-stroke:1px rgba(255,255,255,.07);
+    white-space:nowrap;will-change:transform;transform:translate3d(var(--works-x,0px),0,0);
+  }
+  .portfolio-head{display:grid;gap:22px;align-items:end}
+  @media(min-width:820px){.portfolio-head{grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:54px}}
+  .portfolio-prompt{
+    border-left:1px solid #3A3B3B;padding-left:20px;color:#B5B7B6;font-size:14px;max-width:46ch;
+  }
+  .portfolio-prompt b{display:block;color:#fff;font-size:15px;margin-bottom:4px}
+  .case-filters{display:flex;gap:8px;margin-top:30px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+  .case-filters::-webkit-scrollbar{display:none}
+  .case-filter{
+    flex:none;border:1px solid #3A3B3B;background:#151616;color:#B9BBBA;border-radius:999px;
+    padding:11px 17px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s ease;
+  }
+  .case-filter:hover{border-color:#777;color:#fff}
+  .case-filter.active{background:#fff;border-color:#fff;color:var(--ink)}
+  .case-filter:focus-visible{outline:2px solid #7FBFA4;outline-offset:3px}
+  .portfolio-hint{display:flex;align-items:center;gap:10px;margin-top:18px;color:#777;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .portfolio-hint::before{content:"";width:34px;height:1px;background:#555}
+  .cases{display:grid;grid-template-columns:1fr;gap:14px;margin-top:34px}
   @media(min-width:820px){.cases{grid-template-columns:repeat(2,1fr);gap:18px}}
   .case{
     border:1px solid var(--line-dark);border-radius:var(--radius);overflow:hidden;
-    display:flex;flex-direction:column;background:#131414;transition:border-color .15s,transform .15s;
+    display:flex;flex-direction:column;background:#131414;position:relative;isolation:isolate;
+    transition:border-color .2s ease,transform .35s cubic-bezier(.2,.75,.2,1),opacity .25s ease;
   }
-  .case:hover{border-color:#3E403F;transform:translateY(-3px)}
+  .case[hidden]{display:none}
+  .case.reveal.on{transform:translateY(var(--card-y,0px))}
+  .case.reveal.on:hover{border-color:#555;transform:translateY(calc(var(--card-y,0px) - 5px))}
+  .case::after{
+    content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(127,191,164,.14),transparent 60%);
+    transition:opacity .25s ease;
+  }
+  .case:hover::after{opacity:1}
   .case-shot{
     aspect-ratio:16/9;background:#1C1D1D;display:grid;place-items:center;overflow:hidden;
     color:#565857;font-size:12px;letter-spacing:.14em;text-transform:uppercase;position:relative;
   }
-  .case-shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s ease}
-  .case:hover .case-shot img{transform:scale(1.05)}
+  .case-shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 68%,rgba(0,0,0,.26));pointer-events:none}
+  .case-shot img{
+    width:100%;height:112%;object-fit:cover;object-position:top;
+    transform:translate3d(0,var(--img-y,0px),0) scale(var(--img-scale,1.02));
+    transition:transform .45s cubic-bezier(.2,.75,.2,1);will-change:transform;
+  }
+  .case:hover{--img-scale:1.055}
   .case-body{padding:22px;display:flex;flex-direction:column;gap:8px;flex:1}
   .case-body b{font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:.03em}
   .case-body p{font-size:13.5px;color:#9A9C9B;flex:1}
+  .case-kicker{font-size:10.5px;font-weight:700;color:#7FBFA4;letter-spacing:.16em;text-transform:uppercase}
   .case-link{font-size:13px;font-weight:600;color:#7FBFA4}
   .case-link:hover{color:#A5D8C1}
-  /* секретный проект: спойлер как в Telegram */
-  .spoiler{filter:blur(7px);user-select:none;pointer-events:none}
-  .badge-soon{
-    display:inline-flex;align-self:flex-start;background:var(--green);color:#fff;border-radius:999px;
-    font-size:10.5px;font-weight:700;padding:5px 12px;letter-spacing:.14em;text-transform:uppercase;
+  .case-idea{background:linear-gradient(135deg,#143D2E,#071E16);position:relative;overflow:hidden}
+  .case-idea::before,.case-idea::after{content:"";position:absolute;border:1px solid rgba(127,191,164,.35);border-radius:50%;animation:orbit 8s linear infinite}
+  .case-idea::before{width:210px;height:210px;right:-36px;top:-74px}
+  .case-idea::after{width:120px;height:120px;left:-26px;bottom:-48px;animation-direction:reverse;animation-duration:6s}
+  .case-idea span{position:relative;z-index:1;color:#A5D8C1;font-size:clamp(26px,5vw,46px);font-weight:900;letter-spacing:-.03em}
+  @keyframes orbit{50%{transform:translate(12px,8px) scale(1.08);opacity:.55}}
+  .portfolio-close{display:flex;justify-content:space-between;gap:22px;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid #2A2B2B;color:#909291;font-size:13px}
+  .portfolio-close a{color:#A5D8C1;font-weight:700;white-space:nowrap}
+  @media(max-width:620px){
+    .portfolio-first{padding-top:58px}
+    .portfolio-close{align-items:flex-start;flex-direction:column}
   }
-  .soon-shot{
-    background:linear-gradient(135deg,#143D2E,#0D2B20);
-    font-weight:900;font-size:clamp(34px,6vw,52px);letter-spacing:.06em;
-    color:transparent;-webkit-text-stroke:1px #7FBFA4;
-    animation:soonPulse 3s ease-in-out infinite;position:relative;
-  }
-  .soon-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .soon-shot span{position:relative;z-index:1;text-shadow:0 4px 30px rgba(0,0,0,.4)}
-  @keyframes soonPulse{0%,100%{opacity:.75}50%{opacity:1}}
 
   /* ---------- почему я ---------- */
   .why-grid{display:grid;grid-template-columns:1fr;margin-top:40px;border-top:1px solid var(--line)}
@@ -396,11 +435,11 @@
   @media(prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
-    .btn,.quiz-step,.case,.case-shot img,.svc-item,.step{transition:none;animation:none}
+    .btn,.quiz-step,.case,.case-shot img,.svc-item,.step,.case-idea::before,.case-idea::after{transition:none;animation:none}
     .ticker-in{animation:none}
     .status i{animation:none}
-    .soon-shot{animation:none}
     .show .svc-item{animation:none}
+    .portfolio-word{transform:none!important}
   }
 </style>
 </head>
@@ -421,6 +460,7 @@
       <a data-tg href="#" style="color:var(--green)">Telegram</a>
       <a data-call href="#"><span data-phone-display></span></a>
     </nav>
+    <a class="mobile-work-link" href="#cases">Примеры ↓</a>
   </div>
 </header>
 
@@ -448,9 +488,9 @@
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.32A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.06.79.82-2.98-.2-.31A8.2 8.2 0 1 1 12 20.2Zm4.5-6.14c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06a6.7 6.7 0 0 1-3.35-2.93c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.16 0-.43.06-.66.3-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.6.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.2-.57.2-1.06.14-1.17-.06-.1-.22-.16-.47-.28Z"/></svg>
             Обсудить в WhatsApp
           </a>
-          <a class="btn btn-ghost" data-tg href="#">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.9c-1.2.5-1.1 2.2.1 2.6l4.6 1.5 1.8 5.5c.4 1.1 1.8 1.4 2.6.5l2.1-2.3 4.3 3.1c1 .7 2.4.2 2.7-1l3-15.2ZM8.2 13.3l9.3-5.8c.4-.2.7.3.4.6l-7.1 6.7c-.3.3-.5.7-.6 1.1l-.3 2.2c0 .3-.5.4-.6 0l-1.2-4c-.1-.4 0-.7.1-.8Z"/></svg>
-            Написать в Telegram
+          <a class="btn btn-ghost" href="#cases">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.8"/></svg>
+            Посмотреть примеры
           </a>
         </div>
         <p class="hero-note">Консультация — <b>бесплатно</b>. Расскажите о задаче, подскажу решение и честную цену.</p>
@@ -465,6 +505,100 @@
     </div>
   </div>
 </div>
+
+<!-- ПРОЕКТЫ: сразу показываем диапазон возможностей -->
+<section class="portfolio-first sec-black on-black" id="cases">
+  <div class="portfolio-word" id="portfolioWord" aria-hidden="true">PROJECTS</div>
+  <div class="wrap">
+    <div class="portfolio-head">
+      <div>
+        <p class="eyebrow reveal">Сначала посмотрите</p>
+        <h2 class="h-disp reveal">Какой сайт нужен <em>вашему бизнесу?</em></h2>
+      </div>
+      <div class="portfolio-prompt reveal">
+        <b>Выберите близкую сферу.</b>
+        Откроется не картинка, а полноценный сайт: можно нажимать кнопки, листать страницы и проверить его с телефона.
+      </div>
+    </div>
+
+    <div class="case-filters reveal" role="group" aria-label="Фильтр примеров сайтов">
+      <button class="case-filter active" type="button" data-case-filter="all" aria-pressed="true">Все примеры</button>
+      <button class="case-filter" type="button" data-case-filter="shop" aria-pressed="false">Магазин</button>
+      <button class="case-filter" type="button" data-case-filter="barber" aria-pressed="false">Барбершоп</button>
+      <button class="case-filter" type="button" data-case-filter="medical" aria-pressed="false">Медцентр</button>
+      <button class="case-filter" type="button" data-case-filter="education" aria-pressed="false">Учебный центр</button>
+      <button class="case-filter" type="button" data-case-filter="expert" aria-pressed="false">Специалист</button>
+    </div>
+    <p class="portfolio-hint reveal">Нажмите на проект, чтобы открыть демо</p>
+
+    <div class="cases" id="caseGrid">
+      <a class="case reveal" data-case-type="shop" href="https://veatum.github.io/mensstyle-demo/" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-clothing.jpg" alt="Демо сайта для магазина одежды" loading="lazy"></div>
+        <div class="case-body">
+          <span class="case-kicker">Демо · магазин одежды</span>
+          <b>Каталог с корзиной</b>
+          <p>Категории, размеры и готовый заказ в WhatsApp. Подходит бутикам, шоурумам и магазинам без онлайн-оплаты.</p>
+          <span class="case-link">открыть демо ↗</span>
+        </div>
+      </a>
+
+      <a class="case reveal" data-case-type="barber" href="https://veatum.github.io/barbershop-demo/" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-barbershop.jpg" alt="Демо сайта для барбершопа" loading="lazy"></div>
+        <div class="case-body">
+          <span class="case-kicker">Демо · барбершоп</span>
+          <b>Запись на услугу</b>
+          <p>Услуги, мастера, цены и выбор удобного времени — строгий сайт для мужского сервиса.</p>
+          <span class="case-link">открыть демо ↗</span>
+        </div>
+      </a>
+
+      <a class="case reveal" data-case-type="medical" href="https://veatum.github.io/medical-center-demo/" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-medical.jpg" alt="Демо сайта медицинского центра" loading="lazy"></div>
+        <div class="case-body">
+          <span class="case-kicker">Демо · медицинский центр</span>
+          <b>Клиника и запись на приём</b>
+          <p>Направления, врачи, цены и понятный путь до записи. Спокойный дизайн, который вызывает доверие.</p>
+          <span class="case-link">открыть демо ↗</span>
+        </div>
+      </a>
+
+      <a class="case reveal" data-case-type="education" href="https://veatum.github.io/education-center-demo/" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-education.jpg" alt="Демо сайта учебного центра" loading="lazy"></div>
+        <div class="case-body">
+          <span class="case-kicker">Демо · учебный центр</span>
+          <b>Программы и подбор курса</b>
+          <p>Яркая подача программ, расписание, документы и заявка на консультацию по выбору курса.</p>
+          <span class="case-link">открыть демо ↗</span>
+        </div>
+      </a>
+
+      <a class="case reveal" data-case-type="expert" href="https://iminrieltor.ru" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-imin.jpg" alt="Сайт риелтора iminrieltor.ru" loading="lazy"></div>
+        <div class="case-body">
+          <span class="case-kicker">Реальный проект · специалист</span>
+          <b>Лендинг риелтора</b>
+          <p>Фирменная подача, квиз-анкета, собственный домен и готовые обращения из рекламного трафика.</p>
+          <span class="case-link">открыть сайт ↗</span>
+        </div>
+      </a>
+
+      <a class="case reveal" data-case-type="all" data-wa href="#">
+        <div class="case-shot case-idea"><span>ВАШ САЙТ</span></div>
+        <div class="case-body">
+          <span class="case-kicker">Любая сфера · под вашу задачу</span>
+          <b>Не нашли свой бизнес?</b>
+          <p>Покажите сайт, который вам нравится, или просто расскажите идею. Предложу формат, срок и стоимость.</p>
+          <span class="case-link">обсудить в WhatsApp →</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="portfolio-close reveal">
+      <span>Демо показывают возможный уровень и сценарий. Дизайн каждого проекта собираю под конкретный бизнес.</span>
+      <a href="#quiz">Подобрать решение за минуту ↓</a>
+    </div>
+  </div>
+</section>
 
 <!-- БЕГУЩАЯ СТРОКА -->
 <div class="ticker" aria-hidden="true">
@@ -639,50 +773,6 @@
   </div>
 </section>
 
-<!-- КЕЙСЫ -->
-<section class="sec-black on-black" id="cases">
-  <div class="wrap">
-    <p class="eyebrow reveal">Работы</p>
-    <h2 class="h-disp reveal">Живые проекты — <em>можно кликнуть</em></h2>
-    <p class="lead reveal">Не картинки из портфолио, а работающие сайты реальных заказчиков.</p>
-    <div class="cases">
-      <a class="case reveal" href="https://iminrieltor.ru" target="_blank" rel="noopener">
-        <div class="case-shot"><img src="case-imin.jpg" alt="Лендинг риелтора iminrieltor.ru" onerror="this.parentElement.textContent='скриншот скоро'"></div>
-        <div class="case-body">
-          <b>Лендинг риелтора «Этажей»</b>
-          <p>Продающий одностраничник в фирменном стиле: квиз-анкета, заявки в WhatsApp, свой домен. Клиент получает готовые заявки из Instagram-трафика.</p>
-          <span class="case-link">iminrieltor.ru →</span>
-        </div>
-      </a>
-      <a class="case reveal" href="#" onclick="return false">
-        <div class="case-shot"><img src="case-granat.jpg" alt="Сайт кулинарии Гранат" onerror="this.parentElement.textContent='скриншот скоро'"></div>
-        <div class="case-body">
-          <b>«Гранат» — сайт кулинарии</b>
-          <p>Меню и корзина: гость собирает заказ, менеджер получает его в WhatsApp. Плюс админка, где владелец сам меняет блюда и цены.</p>
-          <span class="case-link">кейс →</span>
-        </div>
-      </a>
-      <a class="case reveal" href="#" onclick="return false">
-        <div class="case-shot soon-shot"><img src="case-secret.jpg" alt="Секретный проект — скоро анонс"><span>SOON</span></div>
-        <div class="case-body">
-          <span class="badge-soon">Скоро анонс</span>
-          <b><span class="spoiler">Большой секрет</span></b>
-          <p>Большой продукт, который готовим с сильной командой. Название пока под спойлером — анонсируем совсем скоро.</p>
-          <span class="case-link">следите за новостями →</span>
-        </div>
-      </a>
-      <a class="case reveal" data-wa href="#">
-        <div class="case-shot" style="background:linear-gradient(135deg,#143D2E,#0D2B20);color:#7FBFA4">ваш проект</div>
-        <div class="case-body">
-          <b>Здесь может быть ваш бизнес</b>
-          <p>Расскажите о задаче — предложу решение, срок и честную цену. Консультация бесплатная.</p>
-          <span class="case-link">обсудить →</span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ПОЧЕМУ Я -->
 <section>
   <div class="wrap">
@@ -759,7 +849,7 @@
       </div>
       <div class="faq-item">
         <button class="faq-q">Надо ли платить каждый месяц?<span class="plus"></span></button>
-        <div class="faq-a"><p>Нет. Сайты делаю так, что ежемесячной платы за платформу нет вообще — в отличие от конструкторов типа Тильды (от 9 000 ₽/год). Ваш регулярный расход — только продление домена, ~300–500 ₽ в год.</p></div>
+        <div class="faq-a"><p>Для простого сайта или каталога ежемесячная плата за платформу не нужна — оплачивается только продление домена. Если нужна админка, база товаров или онлайн-запись, понадобится недорогой сервер. Все обязательные расходы называю до начала работы.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">У меня уже есть старый сайт — что с ним делать?<span class="plus"></span></button>
@@ -859,15 +949,43 @@
   document.querySelectorAll("[data-phone-display]").forEach(el => el.textContent = CONFIG.phoneDisplay);
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* прогресс чтения и параллакс гигантского слова */
+  /* прогресс чтения, параллакс героя и движение превью проектов */
   const sb = document.getElementById("scrollbar");
   const word = document.querySelector(".hero-word");
+  const portfolio = document.getElementById("cases");
+  const portfolioWord = document.getElementById("portfolioWord");
+  const movingCases = Array.from(document.querySelectorAll(".case"));
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  addEventListener("scroll", () => {
+  let scrollFrame = 0;
+  function updateScrollEffects() {
     const h = document.documentElement;
-    if (sb) sb.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+    const pageRange = Math.max(1, h.scrollHeight - h.clientHeight);
+    if (sb) sb.style.width = (h.scrollTop / pageRange * 100) + "%";
     if (word && !reduceMotion) word.style.transform = "translateY(" + (scrollY * .1) + "px)";
-  }, { passive: true });
+    if (portfolio && portfolioWord && !reduceMotion) {
+      const sectionRect = portfolio.getBoundingClientRect();
+      const sectionProgress = Math.max(-1, Math.min(1, (innerHeight - sectionRect.top) / (innerHeight + sectionRect.height)));
+      portfolioWord.style.setProperty("--works-x", (sectionProgress * 72 - 34) + "px");
+      if (innerWidth >= 760) {
+        movingCases.forEach((card, index) => {
+          if (card.hidden) return;
+          const rect = card.getBoundingClientRect();
+          const fromCenter = (rect.top + rect.height / 2 - innerHeight / 2) / innerHeight;
+          const clamped = Math.max(-1, Math.min(1, fromCenter));
+          const direction = index % 2 ? -1 : 1;
+          card.style.setProperty("--card-y", (clamped * direction * 7).toFixed(2) + "px");
+          card.style.setProperty("--img-y", (-clamped * 15).toFixed(2) + "px");
+        });
+      }
+    }
+    scrollFrame = 0;
+  }
+  function requestScrollEffects() {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollEffects);
+  }
+  addEventListener("scroll", requestScrollEffects, { passive: true });
+  addEventListener("resize", requestScrollEffects, { passive: true });
+  updateScrollEffects();
 
   /* магнитные зелёные кнопки (только мышь, не тач) */
   if (matchMedia("(pointer:fine)").matches && !reduceMotion) {
@@ -887,6 +1005,33 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  /* ===== фильтр и интерактивный свет на карточках проектов ===== */
+  const caseFilters = Array.from(document.querySelectorAll(".case-filter"));
+  caseFilters.forEach(button => {
+    button.addEventListener("click", () => {
+      const selected = button.dataset.caseFilter;
+      caseFilters.forEach(item => {
+        const active = item === button;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      movingCases.forEach(card => {
+        card.hidden = selected !== "all" && card.dataset.caseType !== selected && card.dataset.caseType !== "all";
+      });
+      requestScrollEffects();
+    });
+  });
+
+  if (matchMedia("(pointer:fine)").matches && !reduceMotion) {
+    movingCases.forEach(card => {
+      card.addEventListener("pointermove", event => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", (event.clientX - rect.left) + "px");
+        card.style.setProperty("--my", (event.clientY - rect.top) + "px");
+      });
+    });
+  }
 
   /* ===== вкладки услуг ===== */
   const tabs = Array.from(document.querySelectorAll(".tab"));
