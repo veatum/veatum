@@ -364,6 +364,22 @@
   .case-idea::before{width:210px;height:210px;right:-36px;top:-74px}
   .case-idea::after{width:120px;height:120px;left:-26px;bottom:-48px;animation-direction:reverse;animation-duration:6s}
   .case-idea span{position:relative;z-index:1;color:#A5D8C1;font-size:clamp(26px,5vw,46px);font-weight:900;letter-spacing:-.03em}
+  .case-locked img{filter:blur(9px) brightness(.42) saturate(.65);transform:scale(1.1)}
+  .case-lock{
+    position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:9px;text-align:center;background:linear-gradient(135deg,rgba(6,8,7,.2),rgba(6,8,7,.7));
+  }
+  .case-lock i{
+    display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(165,216,193,.55);
+    border-radius:50%;font-style:normal;font-size:11px;font-weight:900;letter-spacing:.12em;color:#A5D8C1;
+  }
+  .case-lock b{font-size:clamp(22px,4vw,34px);letter-spacing:.08em;color:#fff}
+  .case-lock span{font-size:9px;font-weight:700;letter-spacing:.18em;color:#A5D8C1}
+  .case-closed{cursor:default}
+  .case-closed:hover{--img-scale:1.02}
+  .case-closed:hover::after{opacity:0}
+  .case-closed.reveal.on:hover{border-color:var(--line-dark);transform:translateY(var(--card-y,0px))}
+  .case-closed .case-link{color:#777}
   @keyframes orbit{50%{transform:translate(12px,8px) scale(1.08);opacity:.55}}
   .portfolio-close{display:flex;justify-content:space-between;gap:22px;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid #2A2B2B;color:#909291;font-size:13px}
   .portfolio-close a{color:#A5D8C1;font-weight:700;white-space:nowrap}
@@ -385,7 +401,7 @@
     .case-progress-count{display:flex;align-items:baseline;gap:4px;min-width:47px;font-weight:900;font-size:14px;color:#fff}
     .case-progress-count i{font-style:normal;color:#606462;font-size:10px}
     .case-progress-track{height:2px;background:#323534;overflow:hidden;border-radius:99px}
-    .case-progress-track i{display:block;width:var(--case-progress,16.67%);height:100%;background:#7FBFA4;border-radius:inherit;transition:width .25s ease}
+    .case-progress-track i{display:block;width:var(--case-progress,12.5%);height:100%;background:#7FBFA4;border-radius:inherit;transition:width .25s ease}
     .case-progress-label{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#858987;white-space:nowrap}
     .cases{display:block;margin-top:0;position:relative}
     .case{
@@ -399,6 +415,7 @@
       opacity:1;border-color:var(--stack-border,#2A2B2B);
     }
     .case.reveal.on:hover{transform:translate3d(0,var(--stack-y,0px),0) scale(var(--stack-scale,1))}
+    .case-closed.reveal.on:hover{transform:translate3d(0,var(--stack-y,0px),0) scale(var(--stack-scale,1))}
     .case.is-active{--stack-border:#557265;box-shadow:0 22px 58px rgba(0,0,0,.42),0 0 0 1px rgba(127,191,164,.08)}
     .case-shot img{transition:transform .16s linear}
     .portfolio-close{margin-top:6vh}
@@ -609,22 +626,24 @@
       </div>
       <div class="portfolio-prompt reveal">
         <b>Выберите близкую сферу.</b>
-        Откроется не картинка, а полноценный сайт: можно нажимать кнопки, листать страницы и проверить его с телефона.
+        В открытых карточках можно нажимать кнопки, листать страницы и проверить полноценный сайт с телефона.
       </div>
     </div>
 
     <div class="case-filters reveal" role="group" aria-label="Фильтр примеров сайтов">
       <button class="case-filter active" type="button" data-case-filter="all" aria-pressed="true">Все примеры</button>
       <button class="case-filter" type="button" data-case-filter="shop" aria-pressed="false">Магазин</button>
+      <button class="case-filter" type="button" data-case-filter="food" aria-pressed="false">Кулинария</button>
       <button class="case-filter" type="button" data-case-filter="barber" aria-pressed="false">Барбершоп</button>
       <button class="case-filter" type="button" data-case-filter="medical" aria-pressed="false">Медцентр</button>
       <button class="case-filter" type="button" data-case-filter="education" aria-pressed="false">Учебный центр</button>
       <button class="case-filter" type="button" data-case-filter="expert" aria-pressed="false">Специалист</button>
+      <button class="case-filter" type="button" data-case-filter="platform" aria-pressed="false">Платформа</button>
     </div>
-    <p class="portfolio-hint reveal">Нажмите на проект, чтобы открыть демо</p>
+    <p class="portfolio-hint reveal">Открытые проекты можно посмотреть целиком</p>
 
     <div class="case-progress" id="caseProgress" role="status" aria-live="polite" aria-label="Текущий проект">
-      <span class="case-progress-count"><b id="caseCurrent">01</b><i>/</i><span id="caseTotal">06</span></span>
+      <span class="case-progress-count"><b id="caseCurrent">01</b><i>/</i><span id="caseTotal">08</span></span>
       <span class="case-progress-track" aria-hidden="true"><i id="caseProgressBar"></i></span>
       <span class="case-progress-label">листайте вниз</span>
     </div>
@@ -670,6 +689,16 @@
         </div>
       </a>
 
+      <a class="case reveal" data-case-type="food" href="https://veatum.github.io/granat-demo/" target="_blank" rel="noopener">
+        <div class="case-shot"><img src="case-granat.jpg" alt="Демо сайта кулинарии Гранат" loading="lazy"></div>
+        <div class="case-body">
+          <span class="case-kicker">Демо · кулинария</span>
+          <b>Меню и заказ в WhatsApp</b>
+          <p>Категории блюд, интерактивная корзина и готовый состав заказа без онлайн-оплаты и сбора данных на сайте.</p>
+          <span class="case-link">открыть демо ↗</span>
+        </div>
+      </a>
+
       <a class="case reveal" data-case-type="expert" href="https://iminrieltor.ru" target="_blank" rel="noopener">
         <div class="case-shot"><img src="case-imin.jpg" alt="Сайт риелтора iminrieltor.ru" loading="lazy"></div>
         <div class="case-body">
@@ -679,6 +708,19 @@
           <span class="case-link">открыть сайт ↗</span>
         </div>
       </a>
+
+      <article class="case case-closed reveal" data-case-type="platform" aria-label="TvoyDay — закрытый проект">
+        <div class="case-shot case-locked">
+          <img src="case-secret.jpg" alt="Размытое превью закрытого проекта TvoyDay" loading="lazy">
+          <div class="case-lock" aria-hidden="true"><i>NDA</i><b>TVOYDAY</b><span>ЗАКРЫТЫЙ ПРОЕКТ</span></div>
+        </div>
+        <div class="case-body">
+          <span class="case-kicker">Закрытый проект · платформа</span>
+          <b>Свадебный маркетплейс</b>
+          <p>Каталог подрядчиков, портфолио, личные кабинеты и заявки. Интерфейс и ссылка пока не раскрываются.</p>
+          <span class="case-link">проект пока закрыт</span>
+        </div>
+      </article>
 
       <a class="case reveal" data-case-type="all" data-wa href="#">
         <div class="case-shot case-idea"><span>ВАШ САЙТ</span></div>
@@ -1203,7 +1245,7 @@
 
   /* короткая волна в точке касания — работает и пальцем, и мышью */
   if (!reduceMotion) {
-    document.querySelectorAll(".btn,.case,.case-filter,.tab,.cat,.faq-q,.mobile-work-link").forEach(target => {
+    document.querySelectorAll(".btn,.case:not(.case-closed),.case-filter,.tab,.cat,.faq-q,.mobile-work-link").forEach(target => {
       target.classList.add("touch-react");
       target.addEventListener("pointerdown", event => {
         const rect = target.getBoundingClientRect();
