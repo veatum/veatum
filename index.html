@@ -118,13 +118,30 @@
   /* телефоны: буквы крупные, на уровне рук, уходят за края экрана */
   @media(max-width:640px){
     .hero-word{font-size:clamp(96px,31vw,150px);align-items:flex-start;padding-top:52%}
-    .hero-figure{height:90%}
+    .hero-figure-wrap{height:90%}
   }
   /* вырезанная фигура поверх букв — как модель в лукбуке */
+  .hero-figure-wrap{
+    --spot-x:50%;--spot-y:42%;--spot-radius:clamp(76px,7.5vw,112px);
+    position:relative;z-index:1;flex:none;height:94%;aspect-ratio:920/1396;
+    isolation:isolate;
+  }
   .hero-figure{
-    position:relative;z-index:1;height:94%;width:auto;pointer-events:none;user-select:none;
+    position:absolute;inset:0;height:100%;width:100%;object-fit:contain;pointer-events:none;user-select:none;
+  }
+  .hero-figure-mono{
+    z-index:1;
     filter:grayscale(1) contrast(1.06) drop-shadow(0 26px 44px rgba(0,0,0,.28));
   }
+  .hero-figure-color{
+    z-index:2;opacity:0;
+    filter:saturate(1.08) contrast(1.02);
+    -webkit-mask-image:radial-gradient(circle var(--spot-radius) at var(--spot-x) var(--spot-y),#000 0%,#000 52%,rgba(0,0,0,.86) 66%,rgba(0,0,0,.32) 84%,transparent 100%);
+    mask-image:radial-gradient(circle var(--spot-radius) at var(--spot-x) var(--spot-y),#000 0%,#000 52%,rgba(0,0,0,.86) 66%,rgba(0,0,0,.32) 84%,transparent 100%);
+    transition:opacity .32s cubic-bezier(.2,.75,.2,1);will-change:opacity;
+  }
+  .hero-figure-wrap.is-color-active .hero-figure-color{opacity:1}
+  @media(max-width:759px),(hover:none),(pointer:coarse){.hero-figure-color{display:none}}
   .figure-tag{
     position:absolute;z-index:2;bottom:6px;left:0;
     font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
@@ -141,7 +158,7 @@
     .hero-word span{animation:heroLetterIn .82s cubic-bezier(.16,.82,.25,1) both;animation-delay:calc(.12s + var(--letter)*55ms)}
     .hero-word span:nth-child(odd){--letter-x:-32vw;--letter-rot:-9deg}
     .hero-word span:nth-child(even){--letter-x:32vw;--letter-rot:9deg}
-    .hero-figure{animation:heroFigureIn .92s .24s cubic-bezier(.16,.82,.25,1) both}
+    .hero-figure-wrap{animation:heroFigureIn .92s .24s cubic-bezier(.16,.82,.25,1) both}
     .figure-tag{animation:heroTagIn .6s .72s ease both}
     .hero-sub{animation:heroCopyIn .64s .66s cubic-bezier(.2,.75,.2,1) both}
     .hero-lead{animation:heroCopyIn .64s .76s cubic-bezier(.2,.75,.2,1) both}
@@ -153,8 +170,8 @@
     to{opacity:1;transform:none}
   }
   @keyframes heroFigureIn{
-    from{opacity:0;transform:translate3d(0,68px,0) scale(.92);filter:grayscale(1) contrast(1.06) blur(8px) drop-shadow(0 26px 44px rgba(0,0,0,.1))}
-    to{opacity:1;transform:none;filter:grayscale(1) contrast(1.06) blur(0) drop-shadow(0 26px 44px rgba(0,0,0,.28))}
+    from{opacity:0;transform:translate3d(0,68px,0) scale(.92);filter:blur(8px)}
+    to{opacity:1;transform:none;filter:none}
   }
   @keyframes heroCopyIn{from{opacity:0;transform:translate3d(0,24px,0)}to{opacity:1;transform:none}}
   @keyframes heroTagIn{from{opacity:0;transform:translate(var(--tag-x,0),18px)}to{opacity:1;transform:translate(var(--tag-x,0),0)}}
@@ -545,6 +562,7 @@
     .show .svc-item{animation:none}
     .portfolio-word{transform:none!important}
     .portfolio-first::after{display:none}
+    .hero-figure-color{display:none}
   }
   @media(max-width:759px) and (prefers-reduced-motion:reduce){
     .case-progress{position:relative;top:auto}
@@ -583,7 +601,10 @@
 
     <div class="hero-stage">
       <div class="hero-word" aria-hidden="true"><span style="--letter:0">V</span><span style="--letter:1">E</span><span style="--letter:2">A</span><span style="--letter:3">T</span><span style="--letter:4">U</span><span style="--letter:5">M</span></div>
-      <img class="hero-figure" src="hero-cut.webp" alt="Шейх Мутаев — основатель Veatum">
+      <div class="hero-figure-wrap">
+        <img class="hero-figure hero-figure-mono" src="hero-cut.webp" alt="Шейх Мутаев — основатель Veatum">
+        <img class="hero-figure hero-figure-color" src="hero-cut.webp" alt="" aria-hidden="true">
+      </div>
       <span class="figure-tag">Шейх Мутаев · основатель</span>
     </div>
 
@@ -1195,6 +1216,51 @@
   addEventListener("resize", () => { syncStackCases(); requestScrollEffects(); }, { passive: true });
   syncStackCases();
   updateScrollEffects();
+
+  /* цветная линза на портрете — мягко следует за курсором */
+  const heroPortrait = document.querySelector(".hero-figure-wrap");
+  if (heroPortrait && matchMedia("(hover:hover) and (pointer:fine)").matches && !reduceMotion) {
+    let currentX = 50;
+    let currentY = 42;
+    let targetX = currentX;
+    let targetY = currentY;
+    let portraitFrame = 0;
+    let initialized = false;
+
+    function animatePortraitSpot() {
+      currentX += (targetX - currentX) * .2;
+      currentY += (targetY - currentY) * .2;
+      heroPortrait.style.setProperty("--spot-x", currentX.toFixed(2) + "%");
+      heroPortrait.style.setProperty("--spot-y", currentY.toFixed(2) + "%");
+      if (Math.abs(targetX - currentX) > .04 || Math.abs(targetY - currentY) > .04) {
+        portraitFrame = requestAnimationFrame(animatePortraitSpot);
+      } else {
+        portraitFrame = 0;
+      }
+    }
+
+    function movePortraitSpot(event) {
+      const rect = heroPortrait.getBoundingClientRect();
+      targetX = Math.max(0, Math.min(100, (event.clientX - rect.left) / rect.width * 100));
+      targetY = Math.max(0, Math.min(100, (event.clientY - rect.top) / rect.height * 100));
+      if (!initialized) {
+        currentX = targetX;
+        currentY = targetY;
+        initialized = true;
+      }
+      if (!portraitFrame) portraitFrame = requestAnimationFrame(animatePortraitSpot);
+    }
+
+    heroPortrait.addEventListener("pointerenter", event => {
+      heroPortrait.classList.add("is-color-active");
+      movePortraitSpot(event);
+    });
+    heroPortrait.addEventListener("pointermove", movePortraitSpot);
+    heroPortrait.addEventListener("pointerleave", () => {
+      heroPortrait.classList.remove("is-color-active");
+      initialized = false;
+    });
+  }
 
   /* магнитные зелёные кнопки (только мышь, не тач) */
   if (matchMedia("(pointer:fine)").matches && !reduceMotion) {
